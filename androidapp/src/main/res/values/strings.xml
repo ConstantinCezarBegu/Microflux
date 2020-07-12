@@ -1,0 +1,108 @@
+<!--<resources>-->
+<!--    <string name="app_name">ConstaFlux2</string>-->
+<!--    <string name="title_activity_Host_application">HostApplicationActivity</string>-->
+<!--    <string name="title_activity_login_application">LoginApplicationActivity</string>-->
+<!--</resources>-->
+
+<resources>
+    <string name="app_name">Microflux</string>
+
+    <string name="empty_state_title_category">No Categories</string>
+    <string name="empty_state_subtitle_category">Press the + button to add</string>
+    <string name="empty_state_title_feed">No feeds</string>
+    <string name="empty_state_subtitle_feed">Press the + button to add</string>
+    <string name="empty_state_title_entry">No entries</string>
+    <string name="empty_state_subtitle_entry">Refresh or come back later</string>
+
+    <string name="delete_category_question">Delete category?</string>
+    <string name="delete_feed_question">Delete feed?</string>
+    <string name="logout_question">Logout?</string>
+
+    <string name="no_connectivity_error">There is no connectivity! Check your wifi.</string>
+    <string name="error">Error: something went wrong.</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="url">URL</string>
+    <string name="mini">Mini</string>
+    <string name="flux">flux</string>
+
+    <string name="all">All</string>
+    <string name="starred">Starred</string>
+    <string name="feeds">Feeds</string>
+    <string name="categories">Categories</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string name="star_article">Star article</string>
+    <string name="un_star_article">Un-star article</string>
+    <string name="search_article">Search article</string>
+    <string name="mark_as_unread">Mark as unread</string>
+    <string name="mark_as_read">Mark as read</string>
+    <string name="share_article">Share article</string>
+    <string name="fetch_original">Fetch Original</string>
+    <string name="miniflux_article">Miniflux Article</string>
+    <string name="open_in_browser">Open In Browser</string>
+    <string name="loading_data_for_first_use">Loading data for first use.</string>
+    <string name="this_will_only_take_a_minute">This will only take a minute</string>
+
+    <string name="create_category">Create category</string>
+    <string name="update_category">Update category</string>
+    <string name="delete_category">Delete category</string>
+    <string name="create_feed">Create feed</string>
+    <string name="update_feed">Update feed</string>
+    <string name="delete_feed">Delete feed</string>
+
+    <string name="title">Title</string>
+    <string name="url_create">URL</string>
+    <string name="scraper_rules">Scraper Rules</string>
+    <string name="rewrite_rules">Rewrite rules</string>
+    <string name="site_url">Site URL</string>
+    <string name="feed_url">Feed URL</string>
+    <string name="last_check">Last check:</string>
+    <string name="override_default_user_agent">Override Default User Agent</string>
+    <string name="feed_username">Feed Username</string>
+    <string name="feed_password">Feed Password</string>
+    <string name="category">Category:</string>
+    <string name="fetch_feed_original_content">Fetch original content</string>
+    <string name="show_advanced_options">Show Advanced Options</string>
+    <string name="hide_advanced_options">Hide advanced options</string>
+
+    <string name="select_all">Select all</string>
+    <string name="theme">Theme</string>
+    <string name="show_preview">Show preview</string>
+    <string name="notification">Notification</string>
+
+
+    <string name="notify_new_entry_channel_title">New miniflux entry</string>
+    <string name="notify_new_entry_channel_desc">Shows the number of new entry for a feed since the last check.</string>
+    <string name="notify_new_entry_title">%s</string>
+    <string name="notify_new_entry_text_singular">1 new entry</string>
+    <string name="notify_new_entry_text">%d new entries</string>
+    <string name="notify_new_entry_text_max">%d+ new entries</string>
+    <string name="notify_new_feed_text_singular">1 feed update</string>
+    <string name="notify_new_feed_text">%d feed updates</string>
+    <string name="notify_new_feed_text_max">%d+ feed updates</string>
+
+    <string name="notify_invalid_account_chanel_title">Invalid account credentials</string>
+    <string name="notify_invalid_account_channel_desc">Shows if a account is invalid since last check</string>
+    <string name="notify_invalid_account_title">%s</string>
+    <string name="notify_invalid_account_text">Update credentials.</string>
+    <string name="add">Add</string>
+
+    <string name="provide_url_server">Provide the URL of the miniflux servercon</string>
+    <string name="provide_username">Provide the username for the account</string>
+    <string name="provide_password">Provide the password for the account</string>
+    <string name="invalid_url">Invalid URL</string>
+    <string name="invalid_username">Invalid username</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="remove">Remove</string>
+    <string name="login_back_button">login back button</string>
+    <string name="manage_account_settings">Manage account settings</string>
+    <string name="image_preview">Image preview</string>
+    <string name="entries">Entries</string>
+    <string name="mode">Mode:</string>
+</resources>
+

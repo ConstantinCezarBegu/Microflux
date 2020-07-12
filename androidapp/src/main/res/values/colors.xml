@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="miniflux_vomit_green_mat_light">#7abf9c</color>
+    <color name="miniflux_vomit_green_mat_dark">#1a6043</color>
+    <color name="miniflux_vomit_green_mat_variant">#4b8e6e</color>
+
+    <color name="miniflux_sky_mat_light">#7395be</color>
+    <color name="miniflux_sky_mat_dark">#103d60</color>
+    <color name="miniflux_sky_mat_variant">#44678e</color>
+
+
+    <color name="color_primary_light">@color/miniflux_vomit_green_mat_dark</color>
+    <color name="color_primary_dark">@color/miniflux_vomit_green_mat_light</color>
+
+    <color name="color_primary_opposite">@color/color_primary_dark</color>
+
+    <color name="selector">@color/miniflux_vomit_green_mat_variant</color>
+    <color name="translucent_white">#B3FFFFFF</color> <!-- 70% white -->
+    <color name="translucent_black">#33000000</color> <!-- 20% black -->
+
+</resources>

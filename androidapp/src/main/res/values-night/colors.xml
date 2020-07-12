@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_primary_opposite">@color/color_primary_light</color>
+
+    <color name="selector">@color/miniflux_vomit_green_mat_variant</color>
+    <color name="translucent_white">#33FFFFFF</color> <!-- 20% white -->
+    <color name="translucent_black">#B3000000</color> <!-- 70% black -->
+</resources>

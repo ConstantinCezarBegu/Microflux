@@ -1,0 +1,64 @@
+import com.example.constaflux2.data.ServerId;
+import com.example.constaflux2.data.UserId;
+import com.example.constaflux2.data.SettingsTheme;
+import com.example.constaflux2.data.SettingsAllowImagePreview;
+
+CREATE TABLE settings(
+    serverId INTEGER AS ServerId NOT NULL,
+    userId INTEGER AS UserId NOT NULL,
+    settingsTheme INTEGER AS SettingsTheme NOT NULL,
+    settingsAllowImagePreview INTEGER AS SettingsAllowImagePreview NOT NULL,
+    PRIMARY KEY (serverId, userId),
+    FOREIGN KEY (serverId, userId) REFERENCES user(serverId, userId)
+    ON DELETE CASCADE
+);
+
+select:
+SELECT settings.*
+FROM settings
+INNER JOIN user ON settings.serverId = user.serverId AND settings.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?
+LIMIT 1;
+
+delete:
+DELETE FROM settings
+WHERE settings.serverId = ?
+AND settings.userId = ?;
+
+theme:
+SELECT settings.settingsTheme
+FROM settings
+INNER JOIN user ON settings.serverId = user.serverId AND settings.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?
+LIMIT 1;
+
+allowImagePreview:
+SELECT settings.settingsAllowImagePreview
+FROM settings
+INNER JOIN user ON settings.serverId = user.serverId AND settings.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?
+LIMIT 1;
+
+insert:
+INSERT OR IGNORE INTO settings(
+    serverId,
+    userId,
+    settingsTheme,
+    settingsAllowImagePreview
+)
+VALUES ?;
+
+updateSettingsTheme:
+UPDATE settings
+SET settingsTheme = ?
+WHERE serverId = ?
+AND userId = ?;
+
+updateSettingsAllowImagePreview:
+UPDATE settings
+SET settingsAllowImagePreview = ?
+WHERE serverId = ?
+AND userId = ?;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/starMenuItem"
+        android:icon="@drawable/ic_no_star"
+        android:title="@string/star_article"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/statusMenuItem"
+        android:icon="@drawable/ic_mark_as_unread"
+        android:title="@string/mark_as_unread"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/shareMenuItem"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share_article"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/fetchOriginalMenuItem"
+        android:icon="@drawable/ic_fetch_original_article"
+        android:title="@string/fetch_feed_original_content"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/openChromeMenuItem"
+        android:icon="@drawable/ic_open_web"
+        android:title="@string/open_in_browser"
+        app:showAsAction="always" />
+</menu>

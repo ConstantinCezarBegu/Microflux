@@ -1,0 +1,33 @@
+<resources>
+
+    <style name="Platform.Theme.Constaflux" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@android:color/black</item>
+
+        <item name="colorSecondary">@color/color_primary_light</item>
+        <item name="colorSecondaryVariant">@color/color_primary_light</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+    </style>
+
+    <style name="FullScreenDialog" parent="Theme.MaterialComponents.DayNight.DialogWhenLarge">
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="colorPrimary">@color/color_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@android:color/black</item>
+
+        <item name="colorSecondary">@color/color_primary_light</item>
+        <item name="colorSecondaryVariant">@color/color_primary_light</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+    </style>
+
+    <style name="ProgressBarAndSwitch" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorSecondary">@color/color_primary_dark</item>
+        <item name="colorSecondaryVariant">@color/color_primary_dark</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+    </style>
+</resources>

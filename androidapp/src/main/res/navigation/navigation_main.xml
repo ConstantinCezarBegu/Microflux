@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/entryFragment">
+
+    <action
+        android:id="@+id/action_global_entryFragment"
+        app:destination="@id/entryFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/navigation_main" />
+
+    <dialog
+        android:id="@+id/bottomNavigationDrawerFragment"
+        android:name="com.example.constaflux2.ui.fragment.BottomNavigationDrawerFragment"
+        android:label="BottomNavigationDrawerFragment">
+        <action
+            android:id="@+id/action_bottomNavigationDrawerFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/entryFragment" />
+        <action
+            android:id="@+id/action_bottomNavigationDrawerFragment_to_feedFragment"
+            app:destination="@id/feedFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/entryFragment" />
+        <action
+            android:id="@+id/action_bottomNavigationDrawerFragment_to_entryFragment"
+            app:destination="@id/entryFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/navigation_main" />
+        <action
+            android:id="@+id/action_bottomNavigationDrawerFragment_to_accountDialog"
+            app:destination="@id/accountDialog"
+            app:launchSingleTop="true" />
+    </dialog>
+    <fragment
+        android:id="@+id/entryDescriptionFragment"
+        android:name="com.example.constaflux2.ui.fragment.EntryDescriptionFragment"
+        android:label="EntryDescriptionFragment">
+        <argument
+            android:name="entryId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_entryDescriptionFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.constaflux2.ui.fragment.CategoryFragment"
+        android:label="CategoryFragment">
+        <action
+            android:id="@+id/action_categoryFragment_to_feedFragment"
+            app:destination="@id/feedFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_categoryFragment_to_categoryDialog"
+            app:destination="@id/categoryDialog"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_categoryFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryFragment"
+        android:name="com.example.constaflux2.ui.fragment.EntryFragment"
+        android:label="EntryFragment">
+        <argument
+            android:name="feedId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_entryFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_main" />
+        <action
+            android:id="@+id/action_entryFragment_to_entryDescriptionPagerFragment"
+            app:destination="@id/entryDescriptionPagerFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.example.constaflux2.ui.fragment.FeedFragment"
+        android:label="FeedFragment">
+        <action
+            android:id="@+id/action_feedFragment_to_entryFragment"
+            app:destination="@id/entryFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <argument
+            android:name="categoryId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_feedFragment_to_feedDialog"
+            app:destination="@id/feedDialog"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_feedFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.constaflux2.ui.fragment.SettingsFragment"
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_entryFragment"
+            app:destination="@id/entryFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_main" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.example.constaflux2.ui.fragment.AccountFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <argument
+            android:name="serverId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="userId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_accountFragment_to_entryFragment"
+            app:destination="@id/entryFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_main" />
+        <argument
+            android:name="firstTimeLaunch"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryDescriptionPagerFragment"
+        android:name="com.example.constaflux2.ui.fragment.EntryDescriptionPagerFragment"
+        android:label="EntryDescriptionPagerFragment">
+        <argument
+            android:name="entryIds"
+            app:argType="long[]" />
+        <argument
+            android:name="selectedEntryId"
+            app:argType="long" />
+    </fragment>
+    <dialog
+        android:id="@+id/categoryDialog"
+        android:name="com.example.constaflux2.ui.fragment.CategoryDialog"
+        android:label="CategoryDialog">
+        <argument
+            android:name="categoryId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_categoryDialog_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/feedDialog"
+        android:name="com.example.constaflux2.ui.fragment.FeedDialog"
+        android:label="FeedDialog">
+        <argument
+            android:name="feedId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_feedDialog_to_accountFragment"
+            app:destination="@id/accountFragment" />
+        <argument
+            android:name="categoryId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </dialog>
+    <dialog
+        android:id="@+id/accountDialog"
+        android:name="com.example.constaflux2.ui.fragment.AccountDialog"
+        android:label="AccountDialog">
+        <action
+            android:id="@+id/action_accountDialog_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter_from_top"
+            app:exitAnim="@android:anim/fade_out"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/exit_to_top" />
+        <action
+            android:id="@+id/action_accountDialog_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:enterAnim="@anim/enter_from_top"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/exit_to_top" />
+        <action
+            android:id="@+id/action_accountDialog_to_entryFragment"
+            app:destination="@id/entryFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_main" />
+    </dialog>
+
+</navigation>

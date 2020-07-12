@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8">
+      <module name="androidapp" target="1.8" />
+      <module name="androidappcompose" target="1.8" />
+      <module name="ConstaFlux2.androidappcompose" target="1.8" />
+      <module name="ConstaFlux2.buildSrc" target="1.8" />
+      <module name="ConstaFlux2_buildSrc" target="1.8" />
+      <module name="data" target="1.8" />
+      <module name="database" target="1.8" />
+      <module name="network" target="1.8" />
+      <module name="repository" target="1.8" />
+      <module name="viewmodel" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

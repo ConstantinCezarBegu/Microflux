@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="theme_mode">
+        <item>Auto</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+</resources>

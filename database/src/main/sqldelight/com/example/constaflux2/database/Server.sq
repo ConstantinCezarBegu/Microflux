@@ -1,0 +1,38 @@
+import com.example.constaflux2.data.ServerId;
+import com.example.constaflux2.data.ServerUrl;
+
+CREATE TABLE server(
+    serverId INTEGER AS ServerId NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
+    serverUrl TEXT AS ServerUrl NOT NULL UNIQUE
+);
+
+selectAll:
+SELECT server.*
+FROM server;
+
+select:
+SELECT server.*
+FROM server
+WHERE server.serverId = ?
+LIMIT 1;
+
+selectForId:
+SELECT server.serverId
+FROM server
+WHERE server.serverUrl = ?
+LIMIT 1;
+
+delete:
+DELETE FROM server
+WHERE server.serverId = ?;
+
+insertImpl:
+INSERT OR IGNORE INTO server(
+    serverUrl
+)
+VALUES (?);
+
+update:
+UPDATE server
+SET serverUrl = ?
+WHERE serverId = ?;

@@ -1,0 +1,99 @@
+import com.example.constaflux2.data.ServerId;
+import com.example.constaflux2.data.UserFirstTimeRun;
+import com.example.constaflux2.data.UserId;
+import com.example.constaflux2.data.UserName;
+import com.example.constaflux2.data.UserPassword;
+import com.example.constaflux2.data.UserSelected;
+
+CREATE TABLE user(
+    serverId INTEGER AS ServerId NOT NULL,
+    userId INTEGER AS UserId NOT NULL,
+    userName TEXT AS UserName NOT NULL,
+    userPassword BLOB AS UserPassword NOT NULL,
+    userSelected INTEGER AS UserSelected NOT NULL,
+    userFirstTimeRun INTEGER AS UserFirstTimeRun NOT NULL DEFAULT 1,
+    PRIMARY KEY (serverId, userId),
+    FOREIGN KEY (serverId) REFERENCES server(serverId)
+    ON DELETE CASCADE
+);
+
+CREATE VIEW account AS
+SELECT server.serverUrl, user.*
+FROM user
+INNER JOIN server ON user.serverId = server.serverId;
+
+selectAll:
+SELECT account.*
+FROM account
+ORDER BY userName ASC;
+
+selectCurent:
+SELECT account.*
+FROM account
+WHERE account.userSelected = 1
+LIMIT 1;
+
+selectNonCurent:
+SELECT account.*
+FROM account
+WHERE account.userSelected = 0;
+
+select:
+SELECT account.*
+FROM account
+WHERE account.serverId = ?
+AND account.userId = ?
+LIMIT 1;
+
+clearAll:
+DELETE FROM user;
+
+deleteSelected:
+DELETE FROM user
+WHERE user.userSelected = 1;
+
+delete:
+DELETE FROM user
+WHERE user.serverId = ?
+AND user.userId = ?;
+
+insert:
+INSERT OR IGNORE INTO user(
+    serverId,
+    userId,
+    userName,
+    userPassword,
+    userSelected
+)
+VALUES (?, ?, ?, ?, ?);
+
+update:
+UPDATE user
+SET userName = ?,
+    userPassword = ?,
+    userSelected = ?
+WHERE serverId = ?
+AND userId = ?;
+
+makeSelectedImpl:
+UPDATE user
+SET userSelected = 1
+WHERE serverId = ?
+AND userId = ?;
+
+unSelectAllImpl:
+UPDATE user
+SET userSelected = 0
+WHERE userSelected = 1;
+
+selectUserFirstTimeRun:
+SELECT user.userFirstTimeRun
+FROM user
+WHERE serverId = ?
+AND userId = ?;
+
+setUserRanFirstTime:
+UPDATE user
+SET userFirstTimeRun = 0
+WHERE serverId = ?
+AND userId = ?;
