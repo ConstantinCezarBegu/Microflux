@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.constaflux2.view.NestedScrollWebView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.constantin.microflux.view.NestedScrollWebView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/entryContentWebView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarThumbVertical = "@drawable/webview_scroll"
-    android:scrollbars="vertical"/>
+    android:scrollbarThumbVertical="@drawable/webview_scroll"
+    android:scrollbars="vertical" />

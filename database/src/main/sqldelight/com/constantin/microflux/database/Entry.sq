@@ -1,0 +1,214 @@
+import com.constantin.microflux.data.EntryAuthor;
+import com.constantin.microflux.data.EntryContent;
+import com.constantin.microflux.data.EntryId;
+import com.constantin.microflux.data.EntryPreviewImage;
+import com.constantin.microflux.data.EntryPublishedAtDisplay;
+import com.constantin.microflux.data.EntryPublishedAtRaw;
+import com.constantin.microflux.data.EntryStarred;
+import com.constantin.microflux.data.EntryStatus;
+import com.constantin.microflux.data.EntryTitle;
+import com.constantin.microflux.data.EntryPublishedAtUnix;
+import com.constantin.microflux.data.EntryUrl;
+import com.constantin.microflux.data.FeedId;
+import com.constantin.microflux.data.ServerId;
+
+CREATE TABLE entry(
+    serverId INTEGER AS ServerId NOT NULL,
+    entryId INTEGER AS EntryId NOT NULL,
+    feedId INTEGER AS FeedId NOT NULL,
+    entryTitle TEXT AS EntryTitle NOT NULL COLLATE NOCASE,
+    entryUrl TEXT AS EntryUrl NOT NULL,
+    entryPreviewImage TEXT AS EntryPreviewImage NOT NULL,
+    entryAuthor TEXT AS EntryAuthor NOT NULL,
+    entryContent TEXT AS EntryContent NOT NULL,
+    entryPublishedAtDisplay TEXT AS EntryPublishedAtDisplay NOT NULL,
+    entryPublishedAtRaw TEXT AS EntryPublishedAtRaw NOT NULL,
+    entryPublishedAtUnix INTEGER AS EntryPublishedAtUnix NOT NULL,
+    entryStatus TEXT AS EntryStatus NOT NULL,
+    entryStarred INTEGER AS EntryStarred NOT NULL,
+    PRIMARY KEY (serverId, entryId),
+    FOREIGN KEY (serverId, feedId) REFERENCES feed(serverId, feedId)
+    ON DELETE CASCADE
+);
+
+CREATE VIEW entryListPreview AS
+SELECT entry.serverId,
+       entry.entryId,
+       entry.entryTitle,
+       entry.entryPreviewImage,
+       entry.entryPublishedAtDisplay,
+       entry.entryStatus,
+       entry.entryStarred,
+       entry.entryUrl,
+       entry.entryPublishedAtUnix,
+       feed.feedAllowImagePreview,
+       feed.feedTitle,
+       feed.feedIcon,
+       feed.feedId,
+       settings.settingsAllowImagePreview,
+       user.userId
+FROM entry
+INNER JOIN feed ON entry.serverId = feed.serverId AND entry.feedId = feed.feedId
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+INNER JOIN settings ON user.serverId = settings.serverId AND user.userId = settings.userId
+ORDER BY entry.entryPublishedAtUnix DESC;
+
+CREATE VIEW entryDescription AS
+SELECT entry.serverId,
+       entry.entryId,
+       entry.feedId,
+       entry.entryTitle,
+       entry.entryUrl,
+       entry.entryPreviewImage,
+       entry.entryAuthor,
+       entry.entryContent,
+       entry.entryPublishedAtDisplay,
+       entry.entryStatus,
+       entry.entryStarred,
+       feed.feedTitle,
+       feed.feedSiteUrl,
+       feed.feedIcon,
+       category.categoryTitle
+FROM entry
+INNER JOIN feed ON entry.serverId = feed.serverId AND entry.feedId = feed.feedId
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId;
+
+CREATE VIEW entryStarAndStatus AS
+SELECT entry.serverId,
+       entry.entryId,
+       entry.entryStatus,
+       entry.entryStarred
+FROM entry;
+
+selectAllIdImpl:
+SELECT entryListPreview.entryId
+FROM entryListPreview
+WHERE entryListPreview.entryStatus = ?
+AND entryListPreview.serverId = ?
+AND entryListPreview.userId = ?
+AND CASE WHEN :entryStarred > 0 THEN entryListPreview.entryStarred = 1 ELSE 1 END
+AND CASE WHEN :feedId > -1 THEN entryListPreview.feedId = :feedId ELSE 1 END;
+
+countSelectAllImpl:
+SELECT count(*)
+FROM entryListPreview
+WHERE entryListPreview.entryStatus = ?
+AND entryListPreview.serverId = ?
+AND entryListPreview.userId = ?
+AND CASE WHEN :entryStarred > 0 THEN entryListPreview.entryStarred = 1 ELSE 1 END
+AND CASE WHEN :feedId > -1 THEN entryListPreview.feedId = :feedId ELSE 1 END;
+
+
+selectAllImpl:
+SELECT entryListPreview.*
+FROM entryListPreview
+WHERE entryListPreview.entryStatus = ?
+AND entryListPreview.serverId = ?
+AND entryListPreview.userId = ?
+AND CASE WHEN :entryStarred > 0 THEN entryListPreview.entryStarred = 1 ELSE 1 END
+AND CASE WHEN :feedId > -1 THEN entryListPreview.feedId = :feedId ELSE 1 END
+LIMIT :limit OFFSET :offset;
+
+selectLatestFeedEntry:
+SELECT entry.entryPublishedAtUnix
+FROM entry
+INNER JOIN feed ON entry.serverId = feed.serverId AND entry.feedId = feed.feedId
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?
+AND feed.feedId = ?
+AND entry.entryStatus = ?
+ORDER BY entry.entryPublishedAtUnix DESC
+LIMIT 1;
+
+selectLatestFeedEntries:
+SELECT entry.entryPublishedAtUnix
+FROM entry
+INNER JOIN feed ON entry.serverId = feed.serverId AND entry.feedId = feed.feedId
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?
+AND feed.feedId = ?
+AND entry.entryStatus = ?
+ORDER BY entry.entryPublishedAtUnix DESC;
+
+select:
+SELECT entryDescription.*
+FROM entryDescription
+WHERE entryDescription.serverId = ?
+AND entryDescription.entryId = ?
+LIMIT 1;
+
+clearAllImpl:
+WITH TO_CLEAR AS
+(
+    SELECT entry.serverId, entry.entryId
+    FROM entry
+    INNER JOIN feed ON entry.serverId = feed.serverId AND entry.feedId = feed.feedId
+    INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+    INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+    WHERE user.serverId = ?
+    AND user.userId = ?
+    AND entry.entryId NOT IN ?
+    AND CASE WHEN :entryStarred > 0 THEN entry.entryStarred = 1 ELSE 1 END
+    AND CASE WHEN :entryStatus = "all" THEN 1 ELSE entry.entryStatus = :entryStatus END
+    AND CASE WHEN :feedId > -1 THEN entry.feedId = :feedId ELSE 1 END
+)
+DELETE FROM entry
+WHERE entry.serverId = (SELECT serverId FROM TO_CLEAR LIMIT 1)
+AND entry.entryId IN (SELECT entryId FROM TO_CLEAR);
+
+insert:
+INSERT OR IGNORE INTO entry(
+    serverId,
+    entryId,
+    feedId,
+    entryTitle,
+    entryUrl,
+    entryPreviewImage,
+    entryAuthor,
+    entryContent,
+    entryPublishedAtDisplay,
+    entryPublishedAtRaw,
+    entryPublishedAtUnix,
+    entryStatus,
+    entryStarred
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+update:
+UPDATE entry
+SET feedId = ?,
+    entryTitle = ?,
+    entryUrl = ?,
+    entryPreviewImage = ?,
+    entryAuthor = ?,
+    entryContent = ?,
+    entryPublishedAtDisplay = ?,
+    entryPublishedAtRaw = ?,
+    entryPublishedAtUnix = ?,
+    entryStatus = ?,
+    entryStarred = ?
+WHERE serverId = ?
+AND entryId = ?;
+
+updateStar:
+UPDATE entry
+SET entryStarred = CASE WHEN entryStarred = 1 THEN 0 ELSE 1 END
+WHERE serverId =
+    (SELECT user.serverId
+    FROM user
+    WHERE user.userSelected = 1)
+AND entryId IN ?;
+
+updateStatus:
+UPDATE entry
+SET entryStatus = ?
+WHERE serverId =
+    (SELECT user.serverId
+    FROM user
+    WHERE user.userSelected = 1)
+AND entryId IN ?;

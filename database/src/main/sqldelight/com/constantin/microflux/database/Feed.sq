@@ -1,0 +1,247 @@
+import com.constantin.microflux.data.CategoryId;
+import com.constantin.microflux.data.FeedAllowImagePreview;
+import com.constantin.microflux.data.FeedAllowNotification;
+import com.constantin.microflux.data.FeedCheckedAtDisplay;
+import com.constantin.microflux.data.FeedCrawler;
+import com.constantin.microflux.data.FeedIcon;
+import com.constantin.microflux.data.FeedId;
+import com.constantin.microflux.data.FeedLastUpdateAtUnix;
+import com.constantin.microflux.data.FeedPassword;
+import com.constantin.microflux.data.FeedRewriteRules;
+import com.constantin.microflux.data.FeedScraperRules;
+import com.constantin.microflux.data.FeedSiteUrl;
+import com.constantin.microflux.data.FeedTitle;
+import com.constantin.microflux.data.FeedUrl;
+import com.constantin.microflux.data.FeedUserAgent;
+import com.constantin.microflux.data.FeedUsername;
+import com.constantin.microflux.data.ServerId;
+import com.constantin.microflux.data.FeedNotificationCount;
+
+CREATE TABLE feed(
+    serverId INTEGER AS ServerId NOT NULL,
+    feedId INTEGER AS FeedId NOT NULL,
+    categoryId INTEGER AS CategoryId NOT NULL,
+    feedTitle TEXT AS FeedTitle NOT NULL COLLATE NOCASE,
+    feedSiteUrl TEXT AS FeedSiteUrl NOT NULL,
+    feedUrl TEXT AS FeedUrl NOT NULL,
+    feedCheckedAtDisplay TEXT AS FeedCheckedAtDisplay NOT NULL,
+    feedLastUpdateAtUnix INTEGER AS FeedLastUpdateAtUnix NOT NULL DEFAULT 0,
+    feedIcon BLOB AS FeedIcon NOT NULL,
+    feedScraperRules TEXT AS FeedScraperRules NOT NULL,
+    feedRewriteRules TEXT AS FeedRewriteRules NOT NULL,
+    feedCrawler INTEGER AS FeedCrawler NOT NULL,
+    feedUsername BLOB AS FeedUsername NOT NULL,
+    feedPassword BLOB AS FeedPassword NOT NULL,
+    feedUserAgent TEXT AS FeedUserAgent NOT NULL,
+    feedAllowNotification INTEGER AS FeedAllowNotification NOT NULL DEFAULT 1,
+    feedAllowImagePreview INTEGER AS FeedAllowImagePreview NOT NULL DEFAULT 1,
+    feedNotificationCount INTEGER AS FeedNotificationCount NOT NULL DEFAULT 0,
+    PRIMARY KEY (serverId, feedId),
+    FOREIGN KEY (serverId, categoryId) REFERENCES category(serverId, categoryId)
+    ON DELETE CASCADE
+);
+
+CREATE VIEW feedListPreview AS
+SELECT feed.serverId,
+       feed.feedId,
+       feed.feedTitle,
+       feed.feedCheckedAtDisplay,
+       feed.feedIcon,
+       feed.feedAllowImagePreview,
+       category.categoryId,
+       category.categoryTitle,
+       user.userId
+FROM feed
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+;
+
+CREATE VIEW feedBackground AS
+SELECT feed.feedId,
+       feed.feedTitle,
+       feed.feedIcon,
+       feed.serverId,
+       feed.feedAllowNotification,
+       feed.feedLastUpdateAtUnix,
+       user.userId
+FROM feed
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId;
+
+CREATE VIEW feedDescription AS
+SELECT feed.*,
+       settings.settingsAllowImagePreview,
+       category.categoryTitle
+FROM feed
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+INNER JOIN settings ON user.serverId = settings.serverId AND user.userId = settings.userId;
+
+selectAll:
+SELECT feedListPreview.*
+FROM feedListPreview
+WHERE feedListPreview.serverId = ?
+AND feedListPreview.userId = ?
+ORDER BY feedListPreview.feedTitle ASC;
+
+selectAllCategory:
+SELECT feedListPreview.*
+FROM feedListPreview
+WHERE feedListPreview.serverId = ?
+AND feedListPreview.userId = ?
+AND feedListPreview.categoryId = ?
+ORDER BY feedListPreview.feedTitle ASC;
+
+selectAllBackground:
+SELECT feedBackground.*
+FROM feedBackground
+WHERE feedBackground.serverId = ?
+AND feedBackground.userId = ?;
+
+select:
+SELECT feedDescription.*
+FROM feedDescription
+WHERE feedDescription.serverId = ?
+AND feedDescription.feedId = ?
+LIMIT 1;
+
+clearAll:
+WITH TO_CLEAR AS
+(
+    SELECT feed.serverId, feed.feedId
+    FROM feed
+    INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+    INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+    WHERE user.serverId = ?
+    AND user.userId = ?
+    AND feed.feedId NOT IN ?
+)
+DELETE FROM feed
+WHERE feed.serverId = (SELECT serverId FROM TO_CLEAR LIMIT 1)
+AND feed.feedId IN (SELECT feedId FROM TO_CLEAR);
+
+delete:
+DELETE FROM feed
+WHERE feed.serverId = ?
+AND feed.feedId = ?;
+
+insert:
+INSERT OR IGNORE INTO feed(
+    serverId,
+    feedId,
+    feedTitle,
+    feedSiteUrl,
+    feedUrl,
+    feedCheckedAtDisplay,
+    feedIcon,
+    feedScraperRules,
+    feedRewriteRules,
+    feedCrawler,
+    feedUsername,
+    feedPassword,
+    feedUserAgent,
+    categoryId
+)
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);
+
+updateImpl:
+UPDATE feed
+SET feedTitle = ?,
+    feedSiteUrl = ?,
+    feedUrl = ?,
+    feedCheckedAtDisplay = ?,
+    feedIcon = ?,
+    feedScraperRules = ?,
+    feedRewriteRules = ?,
+    feedCrawler = ?,
+    feedUsername = ?,
+    feedPassword = ?,
+    feedUserAgent = ?,
+    categoryId = ?
+WHERE serverId = ?
+AND feedId = ?;
+
+
+update:
+UPDATE feed
+SET feedTitle = ?,
+    feedSiteUrl = ?,
+    feedUrl = ?,
+    feedScraperRules = ?,
+    feedRewriteRules = ?,
+    feedCrawler = ?,
+    feedUsername = ?,
+    feedPassword = ?,
+    feedUserAgent = ?,
+    categoryId = ?,
+    feedAllowNotification = ?,
+    feedAllowImagePreview = ?
+WHERE serverId = ?
+AND feedId = ?;
+
+selectLastUpdateAtUnix:
+SELECT feed.feedLastUpdateAtUnix
+FROM feed
+WHERE serverId = ?
+AND feedId = ?
+ORDER BY feed.feedLastUpdateAtUnix DESC
+LIMIT 1;
+
+selectAllId:
+SELECT feed.feedId
+FROM feed
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?;
+
+updateLastUpdateAtUnixImpl:
+WITH TO_UPDATE AS
+(
+    SELECT feed.serverId, feed.feedId, MAX(entry.entryPublishedAtUnix) AS max
+    FROM entry
+    INNER JOIN feed ON entry.serverId = feed.serverId AND entry.feedId = feed.feedId
+    WHERE feed.serverId = ?
+    AND feed.feedId = ?
+    GROUP BY entry.feedId
+    LIMIT 1
+)
+UPDATE feed
+SET feedLastUpdateAtUnix = CASE WHEN feedLastUpdateAtUnix < (SELECT max FROM TO_UPDATE) THEN (SELECT max FROM TO_UPDATE) ELSE feedLastUpdateAtUnix END
+WHERE feed.serverId = (SELECT serverId FROM TO_UPDATE)
+AND feed.feedId = (SELECT feedId FROM TO_UPDATE);
+
+updateLastUpdateAtUnix:
+UPDATE feed
+SET feedLastUpdateAtUnix = ?
+WHERE feed.serverId = ?
+AND feed.feedId = ?;
+
+selectFeedNotificationDisplayed:
+SELECT COUNT(*)
+FROM feed
+INNER JOIN category ON feed.serverId = category.serverId AND feed.categoryId = category.categoryId
+INNER JOIN user ON category.serverId = user.serverId AND category.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?
+AND feed.feedNotificationCount > 0
+LIMIT 1;
+
+selectFeedNotificationCount:
+SELECT feed.feedNotificationCount
+FROM feed
+WHERE feed.serverId = ?
+AND feed.feedId = ?
+LIMIT 1;
+
+addFeedNotificationCount:
+UPDATE feed
+SET feedNotificationCount = feedNotificationCount + ?
+WHERE feed.serverId = ?
+AND  feed.feedId = ?;
+
+resetFeedNotificationCount:
+UPDATE feed
+SET feedNotificationCount = 0
+WHERE feed.serverId = ?
+AND CASE WHEN :feedId = -1 THEN 1 ELSE feed.feedId = :feedId END;
