@@ -1,0 +1,61 @@
+import com.constantin.microflux.data.MeEntrySortingDirection;
+import com.constantin.microflux.data.MeIsAdmin;
+import com.constantin.microflux.data.MeLanguage;
+import com.constantin.microflux.data.MeLastLoginAt;
+import com.constantin.microflux.data.MeTheme;
+import com.constantin.microflux.data.MeTimeZone;
+import com.constantin.microflux.data.ServerId;
+import com.constantin.microflux.data.UserId;
+
+CREATE TABLE me(
+    serverId INTEGER AS ServerId NOT NULL,
+    userId INTEGER AS UserId NOT NULL,
+    meIsAdmin INTEGER AS MeIsAdmin NOT NULL,
+    meLanguage TEXT AS MeLanguage NOT NULL,
+    meLastLoginAt TEXT AS MeLastLoginAt NOT NULL,
+    meTheme TEXT AS MeTheme NOT NULL,
+    meTimeZone TEXT AS MeTimeZone NOT NULL,
+    meEntrySortingDirection TEXT AS MeEntrySortingDirection NOT NULL,
+    PRIMARY KEY (serverId, userId),
+    FOREIGN KEY (serverId, userId) REFERENCES user(serverId, userId)
+    ON DELETE CASCADE
+);
+
+
+select:
+SELECT me.*
+FROM me
+INNER JOIN user ON me.serverId = user.serverId AND me.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?
+LIMIT 1;
+
+delete:
+DELETE FROM me
+WHERE me.serverId = ?
+AND me.userId = ?;
+
+insert:
+INSERT OR IGNORE INTO me(
+    serverId,
+    userId,
+    meIsAdmin,
+    meLanguage,
+    meLastLoginAt,
+    meTheme,
+    meTimeZone,
+    meEntrySortingDirection
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+update:
+UPDATE me
+SET
+   meIsAdmin = ?,
+   meLanguage = ?,
+   meLastLoginAt = ?,
+   meTheme = ?,
+   meTimeZone = ?,
+   meEntrySortingDirection = ?
+WHERE serverId = ?
+AND userId = ?;

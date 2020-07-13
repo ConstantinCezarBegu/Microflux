@@ -61,6 +61,6 @@ dependencies {
 
 sqldelight {
     database("Database") {
-        packageName = "com.example.constaflux2.database"
+        packageName = "com.constantin.microflux.database"
     }
 }

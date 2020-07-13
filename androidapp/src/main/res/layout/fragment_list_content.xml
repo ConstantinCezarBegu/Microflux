@@ -19,7 +19,7 @@
             app:navigationIcon="@drawable/ic_arrow_back" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.example.constaflux2.view.RefreshLayout
+    <com.constantin.microflux.view.RefreshLayout
         android:id="@+id/content_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,7 +33,7 @@
             android:orientation="vertical"
             android:paddingVertical="8dp" />
 
-    </com.example.constaflux2.view.RefreshLayout>
+    </com.constantin.microflux.view.RefreshLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/empty_state_container"

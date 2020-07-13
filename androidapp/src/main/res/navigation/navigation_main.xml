@@ -13,7 +13,7 @@
 
     <dialog
         android:id="@+id/bottomNavigationDrawerFragment"
-        android:name="com.example.constaflux2.ui.fragment.BottomNavigationDrawerFragment"
+        android:name="com.constantin.microflux.ui.fragment.BottomNavigationDrawerFragment"
         android:label="BottomNavigationDrawerFragment">
         <action
             android:id="@+id/action_bottomNavigationDrawerFragment_to_categoryFragment"
@@ -49,7 +49,7 @@
     </dialog>
     <fragment
         android:id="@+id/entryDescriptionFragment"
-        android:name="com.example.constaflux2.ui.fragment.EntryDescriptionFragment"
+        android:name="com.constantin.microflux.ui.fragment.EntryDescriptionFragment"
         android:label="EntryDescriptionFragment">
         <argument
             android:name="entryId"
@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.example.constaflux2.ui.fragment.CategoryFragment"
+        android:name="com.constantin.microflux.ui.fragment.CategoryFragment"
         android:label="CategoryFragment">
         <action
             android:id="@+id/action_categoryFragment_to_feedFragment"
@@ -80,7 +80,7 @@
     </fragment>
     <fragment
         android:id="@+id/entryFragment"
-        android:name="com.example.constaflux2.ui.fragment.EntryFragment"
+        android:name="com.constantin.microflux.ui.fragment.EntryFragment"
         android:label="EntryFragment">
         <argument
             android:name="feedId"
@@ -102,7 +102,7 @@
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.example.constaflux2.ui.fragment.FeedFragment"
+        android:name="com.constantin.microflux.ui.fragment.FeedFragment"
         android:label="FeedFragment">
         <action
             android:id="@+id/action_feedFragment_to_entryFragment"
@@ -126,7 +126,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.constaflux2.ui.fragment.SettingsFragment"
+        android:name="com.constantin.microflux.ui.fragment.SettingsFragment"
         android:label="SettingsFragment">
         <action
             android:id="@+id/action_settingsFragment_to_entryFragment"
@@ -136,7 +136,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.example.constaflux2.ui.fragment.AccountFragment"
+        android:name="com.constantin.microflux.ui.fragment.AccountFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <argument
@@ -159,7 +159,7 @@
     </fragment>
     <fragment
         android:id="@+id/entryDescriptionPagerFragment"
-        android:name="com.example.constaflux2.ui.fragment.EntryDescriptionPagerFragment"
+        android:name="com.constantin.microflux.ui.fragment.EntryDescriptionPagerFragment"
         android:label="EntryDescriptionPagerFragment">
         <argument
             android:name="entryIds"
@@ -170,7 +170,7 @@
     </fragment>
     <dialog
         android:id="@+id/categoryDialog"
-        android:name="com.example.constaflux2.ui.fragment.CategoryDialog"
+        android:name="com.constantin.microflux.ui.fragment.CategoryDialog"
         android:label="CategoryDialog">
         <argument
             android:name="categoryId"
@@ -182,7 +182,7 @@
     </dialog>
     <dialog
         android:id="@+id/feedDialog"
-        android:name="com.example.constaflux2.ui.fragment.FeedDialog"
+        android:name="com.constantin.microflux.ui.fragment.FeedDialog"
         android:label="FeedDialog">
         <argument
             android:name="feedId"
@@ -198,7 +198,7 @@
     </dialog>
     <dialog
         android:id="@+id/accountDialog"
-        android:name="com.example.constaflux2.ui.fragment.AccountDialog"
+        android:name="com.constantin.microflux.ui.fragment.AccountDialog"
         android:label="AccountDialog">
         <action
             android:id="@+id/action_accountDialog_to_settingsFragment"

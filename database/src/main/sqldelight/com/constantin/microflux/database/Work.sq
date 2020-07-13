@@ -1,0 +1,35 @@
+import com.constantin.microflux.data.ServerId;
+import com.constantin.microflux.data.UserId;
+import com.constantin.microflux.data.EntryId;
+import com.constantin.microflux.data.WorkType;
+
+CREATE TABLE work(
+    serverId INTEGER AS ServerId NOT NULL,
+    userId INTEGER AS UserId NOT NULL,
+    entryId INTEGER AS EntryId NOT NULL,
+    workType INTEGER AS WorkType NOT NULL,
+    PRIMARY KEY (serverId, userId, entryId),
+    FOREIGN KEY (serverId, userId) REFERENCES user(serverId, userId)
+    ON DELETE CASCADE
+);
+
+selectAll:
+SELECT work.*
+FROM work
+INNER JOIN user ON work.serverId = user.serverId AND work.userId = user.userId
+WHERE user.serverId = ?
+AND user.userId = ?;
+
+insert:
+INSERT OR IGNORE INTO work(
+    serverId,
+    userId,
+    entryId,
+    workType
+)
+VALUES (?, ?, ?, ?);
+
+delete:
+DELETE FROM work
+WHERE work.serverId = ?
+AND work.entryId = ?;
