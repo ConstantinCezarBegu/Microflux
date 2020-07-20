@@ -29,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.dankito.readability4j.Readability4J
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -336,8 +337,13 @@ class EntryDescriptionFragment() : BindingFragment<FragmentEntryDescriptionBindi
             if (isFetchedOriginal) {
                 try {
                     val url = viewmodel.entry.await().entryUrl.url
+                    // WebView methods must be called on the main thread
+                    val userAgentString = withContext(Dispatchers.Main) {
+                        entryContentWebView.settings.userAgentString
+                    }
                     val request = Request.Builder()
                         .url(url)
+                        .header("User-Agent", userAgentString)
                         .build()
 
                     val response = okHttpClient.newCall(request).execute()
