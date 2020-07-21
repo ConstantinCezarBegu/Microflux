@@ -53,7 +53,7 @@ class AccountFragment() : BindingFragment<FragmentLoginBinding>(
         savedInstanceState: Bundle?
     ) {
         binding.run {
-            if (savedInstanceState != null) attachAccount()
+            if (savedInstanceState == null) attachAccount()
             attachLoginButton()
             attachDeleteButton()
             attachBackButton()
