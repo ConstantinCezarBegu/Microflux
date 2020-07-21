@@ -46,7 +46,7 @@ dependencies {
     // modules
     api(project(":repository"))
     // Android Pagination
-    implementation("androidx.paging:paging-runtime-ktx:2.1.2")
+    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha02")
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha05")
     // viewmodel

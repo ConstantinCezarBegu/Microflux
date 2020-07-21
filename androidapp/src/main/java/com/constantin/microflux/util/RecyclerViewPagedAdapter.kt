@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class RecyclerViewPagedAdapter<T, B : ViewBinding>(
+abstract class RecyclerViewPagedAdapter<T : Any, B : ViewBinding>(
     private val viewInflater: (LayoutInflater, ViewGroup?, Boolean) -> B,
     private var itemClickCallback: (Long, Context, Int) -> Unit = { _, _, _ -> },
     private var itemLongClickCallback: (Long, Context, Int) -> Unit = { _, _, _ -> },

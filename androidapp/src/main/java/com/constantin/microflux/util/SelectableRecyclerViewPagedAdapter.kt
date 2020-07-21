@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
 
-abstract class SelectableRecyclerViewPagedAdapter<T, B : ViewBinding>(
+abstract class SelectableRecyclerViewPagedAdapter<T : Any, B : ViewBinding>(
     viewInflater: (LayoutInflater, ViewGroup?, Boolean) -> B,
     itemClickCallback: (Long, Context, Int) -> Unit = { _, _, _ -> },
     private val itemCountCallback: (Int) -> Unit = { _ -> },
