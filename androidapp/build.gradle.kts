@@ -64,7 +64,7 @@ dependencies {
     // Modules needed.
     api(project(":viewmodel"))
     // Android Pagination
-    implementation("androidx.paging:paging-runtime-ktx:2.1.2")
+    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha02")
     // Material
     implementation("com.google.android.material:material:1.3.0-alpha01")
     // Setting edge to edge variables
