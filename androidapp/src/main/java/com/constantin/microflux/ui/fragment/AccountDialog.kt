@@ -63,13 +63,14 @@ class AccountDialog() : BindingDialogFragment<DialogAccountBinding>(
             accountClickCallback = { account, _, _ ->
                 serverIdToChange = account.serverId
                 userIdToChange = account.userId
+                isCancelable = false
                 viewmodel.changeAccounts(
                     account = account
-                )
-                isCancelable = false
-                findNavController().navigate(
-                    AccountDialogDirections.actionAccountDialogToEntryFragment()
-                )
+                ).invokeOnCompletion {
+                    findNavController().navigate(
+                        AccountDialogDirections.actionAccountDialogToEntryFragment()
+                    )
+                }
             },
             addClickCallBack = { _, _ ->
                 findNavController().navigate(

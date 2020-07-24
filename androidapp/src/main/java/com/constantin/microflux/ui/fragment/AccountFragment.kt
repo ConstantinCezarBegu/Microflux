@@ -82,10 +82,11 @@ class AccountFragment() : BindingFragment<FragmentLoginBinding>(
             if (serverId != ServerId.NO_SERVER && userId != UserId.NO_USER) visibility =
                 View.VISIBLE
             setOnClickListener {
-                findNavController().navigate(
-                    AccountFragmentDirections.actionAccountFragmentToEntryFragment()
-                )
-                viewmodel.deleteAccount()
+                viewmodel.deleteAccount()?.invokeOnCompletion {
+                    findNavController().navigate(
+                        AccountFragmentDirections.actionAccountFragmentToEntryFragment()
+                    )
+                }
             }
         }
     }
