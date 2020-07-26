@@ -108,13 +108,11 @@ class AccountRepository(
     suspend fun changeAccount(
         serverId: ServerId,
         userId: UserId
-    ) = withContext(context) {
-        withContext(NonCancellable) {
-            currentAccount = constafluxDatabase.userQueries.selectUser(
-                serverId = serverId,
-                userId = userId
-            )
-        }
+    ) = withContext(context + NonCancellable) {
+        currentAccount = constafluxDatabase.userQueries.selectUser(
+            serverId = serverId,
+            userId = userId
+        )
     }
 
     private suspend fun fetchAccount(
