@@ -2,6 +2,7 @@ package com.constantin.microflux.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -50,11 +51,31 @@ class MainActivity : DaggerAppCompatActivity(R.layout.activity_main) {
             .setAction("$ACTION_OPEN_FEED_SUMMARY_NOTIFICATION:${serverId.id}:${userId.id}")
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        readMicrofluxIntent(intent)
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        readMicrofluxIntent(intent)
+    }
 
+    override fun onBackPressed() {
+        val fragment =
+            supportFragmentManager
+                .primaryNavigationFragment
+                ?.childFragmentManager
+                ?.fragments
+                ?.firstOrNull { it.isVisible }
+
+        if (fragment is IOnBackPressed) {
+            if (fragment.onBackPressed()) super.onBackPressed()
+        } else super.onBackPressed()
+    }
+
+    private fun readMicrofluxIntent(intent: Intent?) {
         val actions = intent?.action?.split(":") ?: return
-
         when {
             actions[0] == ACTION_OPEN_FEED_NOTIFICATION -> {
                 val serverId = actions[1].toLong().let(::ServerId)
@@ -65,6 +86,7 @@ class MainActivity : DaggerAppCompatActivity(R.layout.activity_main) {
                         serverId = serverId,
                         userId = userId
                     )
+                }.invokeOnCompletion {
                     findNavController(R.id.nav_host_fragment).navigate(
                         R.id.action_global_entryFragment
                     )
@@ -82,6 +104,7 @@ class MainActivity : DaggerAppCompatActivity(R.layout.activity_main) {
                         serverId = serverId,
                         userId = userId
                     )
+                }.invokeOnCompletion {
                     findNavController(R.id.nav_host_fragment).navigate(
                         R.id.action_global_entryFragment
                     )
@@ -95,6 +118,7 @@ class MainActivity : DaggerAppCompatActivity(R.layout.activity_main) {
                         serverId = serverId,
                         userId = userId
                     )
+                }.invokeOnCompletion {
                     findNavController(R.id.nav_host_fragment).navigate(
                         R.id.action_global_entryFragment
                     )
@@ -103,16 +127,4 @@ class MainActivity : DaggerAppCompatActivity(R.layout.activity_main) {
         }
     }
 
-    override fun onBackPressed() {
-        val fragment =
-            supportFragmentManager
-                .primaryNavigationFragment
-                ?.childFragmentManager
-                ?.fragments
-                ?.firstOrNull { it.isVisible }
-
-        if (fragment is IOnBackPressed) {
-            if (fragment.onBackPressed()) super.onBackPressed()
-        } else super.onBackPressed()
-    }
 }
