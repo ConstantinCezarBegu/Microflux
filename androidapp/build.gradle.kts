@@ -64,9 +64,9 @@ dependencies {
     // Modules needed.
     api(project(":viewmodel"))
     // Android Pagination
-    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha02")
+    implementation("androidx.paging:paging-runtime-ktx:2.1.2")
     // Material
-    implementation("com.google.android.material:material:1.3.0-alpha01")
+    implementation("com.google.android.material:material:1.3.0-alpha02")
     // Setting edge to edge variables
     implementation("dev.chrisbanes:insetter-ktx:0.3.0")
     // Fetching web content
@@ -82,9 +82,9 @@ dependencies {
     // Appcompat
     implementation("androidx.appcompat:appcompat:1.3.0-alpha01")
     // Activity
-    implementation("androidx.activity:activity-ktx:1.2.0-alpha06")
+    implementation("androidx.activity:activity-ktx:1.2.0-alpha07")
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha06")
+    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha07")
     // Core
     implementation("androidx.core:core-ktx:1.5.0-alpha01")
     // ConstraintLayout
@@ -94,15 +94,15 @@ dependencies {
     // Viewpager2
     implementation("androidx.viewpager2:viewpager2:1.1.0-alpha01")
     // RecyclerView
-    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha04")
+    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha05")
     // SwipeRefreshLayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     // Browser
     implementation("androidx.browser:browser:1.3.0-alpha04")
     // Process
-    implementation("androidx.lifecycle:lifecycle-process:2.3.0-alpha05")
+    implementation("androidx.lifecycle:lifecycle-process:2.3.0-alpha06")
     // Work
-    implementation("androidx.work:work-runtime-ktx:2.4.0-rc01")
+    implementation("androidx.work:work-runtime-ktx:2.4.0")
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.0")

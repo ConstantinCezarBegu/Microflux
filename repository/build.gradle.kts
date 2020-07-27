@@ -55,7 +55,7 @@ dependencies {
     api(project(":database"))
     api(project(":data"))
     // Android Pagination
-    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha02")
+    implementation("androidx.paging:paging-runtime-ktx:2.1.2")
     // Jsoup
     implementation("org.jsoup:jsoup:1.13.1")
     // Coroutines

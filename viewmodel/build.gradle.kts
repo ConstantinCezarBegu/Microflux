@@ -46,11 +46,11 @@ dependencies {
     // modules
     api(project(":repository"))
     // Android Pagination
-    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha02")
+    implementation("androidx.paging:paging-runtime-ktx:2.1.2")
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha05")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha06")
     // viewmodel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha05")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha06")
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7")
 }
