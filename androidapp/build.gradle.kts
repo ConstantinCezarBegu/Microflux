@@ -12,8 +12,8 @@ android {
         applicationId = "com.constantin.microflux"
         minSdkVersion(24)
         targetSdkVersion(30)
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.1"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -59,7 +59,7 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.9")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // Modules needed.
     api(project(":viewmodel"))
@@ -88,7 +88,7 @@ dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.5.0-alpha01")
     // ConstraintLayout
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta8")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-rc1")
     // CoordinatorLayout
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     // Viewpager2
