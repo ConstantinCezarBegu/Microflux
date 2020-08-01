@@ -17,7 +17,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.72")
         // Android tools
-        classpath("com.android.tools.build:gradle:4.2.0-alpha06")
+        classpath("com.android.tools.build:gradle:4.2.0-alpha07")
         // Navigation safe args
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.0")
         // Sqldelight
