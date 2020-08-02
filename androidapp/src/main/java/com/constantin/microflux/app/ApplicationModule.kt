@@ -49,7 +49,7 @@ interface ApplicationModule {
         @Singleton
         fun provideCustomTabsIntent(context: Context): CustomTabsIntent =
             CustomTabsIntent.Builder()
-                .setToolbarColor(context.getColor(R.color.color_primary_dark))
+                .setToolbarColor(context.getColor(R.color.color_primary_opposite))
                 .setDefaultShareMenuItemEnabled(true)
                 .build().also {
                     it.intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
