@@ -3,7 +3,7 @@ package com.constantin.microflux.ui.fragment
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import coil.ImageLoader
 import com.constantin.microflux.R
@@ -36,7 +37,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
         private const val STATUS_RESTORE_NAME = "entryStatusMode"
         private const val STARRED_RESTORE_NAME = "entryStarredMode"
         private const val SELECTION_RESTORE_NAME = "entrySelectionMode"
-        private const val RECYCLERVIEW_STATE = "entryRecyclerviewState"
     }
 
     @Inject
@@ -50,12 +50,9 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
     private var feedId = FeedId.NO_FEED
 
     private val eventSnackbar = EventSnackbar()
-    private var recyclerviewBundle: Parcelable? = null
-    private lateinit var recyclerViewAdapter: EntryListRecyclerViewPagedAdapter
+    private lateinit var recyclerViewAdapter: EntryListRecyclerViewAdapter
     private lateinit var recyclerViewSwipeSimpleCallbacks: ItemTouchHelper.SimpleCallback
     private lateinit var recyclerViewLayoutManager: StaggeredGridLayoutManager
-
-    private lateinit var loadedEntryId: List<Long>
 
     private var entryStatus: EntryStatus = EntryStatus.UN_READ
         set(value) {
@@ -99,7 +96,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
         savedInstanceState?.run {
             entryStatus = EntryStatus(getString(STATUS_RESTORE_NAME, entryStatus.status))
             entryStarred = EntryStarred(getBoolean(STARRED_RESTORE_NAME, entryStarred.starred))
-            recyclerviewBundle = getParcelable(RECYCLERVIEW_STATE)
         }
     }
 
@@ -130,10 +126,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                     recyclerViewAdapter.selectionList.toLongArray()
                 )
             }
-            putParcelable(
-                RECYCLERVIEW_STATE,
-                recyclerviewBundle
-            )
         }
     }
 
@@ -145,11 +137,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
             }
         }
         autoLogin(savedInstanceState == null)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        recyclerviewBundle = recyclerViewLayoutManager.onSaveInstanceState()
     }
 
     private fun attachUserTheme() {
@@ -172,16 +159,16 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
 
         recyclerViewSwipeSimpleCallbacks = contentList.onSwipe { viewHolder, _ ->
             val position = viewHolder.bindingAdapterPosition
-            val itemId = recyclerViewAdapter.currentList?.get(position)?.entryId ?: return@onSwipe
+            val itemId = recyclerViewAdapter.currentList[position].entryId
             viewmodel.updateEntryStatus(listOf(itemId), entryStatus)
         }
 
-        recyclerViewAdapter = EntryListRecyclerViewPagedAdapter(
+        recyclerViewAdapter = EntryListRecyclerViewAdapter(
             imageLoader = imageLoader,
             itemClickCallback = { entryId, _, _ ->
                 findNavController().navigate(
                     EntryFragmentDirections.actionEntryFragmentToEntryDescriptionPagerFragment(
-                        loadedEntryId.toLongArray(), entryId
+                        recyclerViewAdapter.currentList.map { it.entryId.id }.toLongArray(), entryId
                     )
                 )
             },
@@ -208,15 +195,35 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 }
             }
         ).also {
+            it.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             contentList.adapter = it
         }
 
-
-        viewmodel.entries.observeFilterLiveData(
-            owner = viewLifecycleOwner,
-            fistRunAction = {
-                recyclerViewLayoutManager.onRestoreInstanceState(recyclerviewBundle)
+        contentList.addPagination(
+            pageSize = 20,
+            firstVisiblePosition = {
+                with(recyclerViewLayoutManager) {
+                    findFirstVisibleItemPositions(IntArray(spanCount)).first()
+                }
             },
+            loadMoreItems = { _ ->
+                Log.d("test", "END OF PAGE")
+                viewmodel.fetchEntry(
+                    entryStatus = entryStatus,
+                    entryStarred = entryStarred,
+                    entryAfter = with(recyclerViewAdapter) {
+                        currentList.last().entryPublishedAtUnix
+                    },
+                    clearPrevious = false,
+                    showAnimations = false
+                )
+
+            }
+        )
+
+        viewmodel.entries.observeFilter(
+            owner = viewLifecycleOwner,
             stateChangeAction = {
                 contentList.scrollToPosition(0)
             },
@@ -226,10 +233,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 showBottomAppBarIfNoItemToScroll()
             }
         )
-
-        viewmodel.entriesId.observeFilter(viewLifecycleOwner) { entriesId ->
-            loadedEntryId = entriesId.map { it.id }
-        }
 
         recyclerViewLayoutManager =
             StaggeredGridLayoutManager(
@@ -301,11 +304,9 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 when (menuItem.itemId) {
                     R.id.starMenuItem -> {
                         entryStarred = entryStarred.not()
-                        recyclerviewBundle = null
                     }
                     R.id.statusMenuItem -> {
                         entryStatus = entryStatus.not()
-                        recyclerviewBundle = null
                     }
                 }
                 true
@@ -342,7 +343,7 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                         )
                     }
                     R.id.recycler_view_select_all -> {
-                        recyclerViewAdapter.bulkSelection(loadedEntryId)
+                        recyclerViewAdapter.bulkSelection()
                     }
                 }
                 true
@@ -379,10 +380,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
         animate: Boolean = true
     ) {
         viewmodel.run {
-            getEntriesId(
-                entryStatus = entryStatus,
-                entryStarred = entryStarred
-            )
             getEntries(
                 entryStatus = entryStatus,
                 entryStarred = entryStarred

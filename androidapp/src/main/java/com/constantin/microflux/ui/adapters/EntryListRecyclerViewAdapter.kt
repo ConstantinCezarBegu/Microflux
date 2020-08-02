@@ -12,11 +12,11 @@ import com.constantin.microflux.data.EntryTitle
 import com.constantin.microflux.data.EntryUrl
 import com.constantin.microflux.database.EntryListPreview
 import com.constantin.microflux.databinding.ListItemEntryBinding
-import com.constantin.microflux.util.SelectableRecyclerViewPagedAdapter
+import com.constantin.microflux.util.SelectableRecyclerViewAdapter
 import okhttp3.HttpUrl
 import java.util.stream.DoubleStream.builder
 
-class EntryListRecyclerViewPagedAdapter(
+class EntryListRecyclerViewAdapter(
     private val imageLoader: ImageLoader,
     itemClickCallback: (Long, Context, Int) -> Unit,
     itemCountCallback: (Int) -> Unit,
@@ -24,7 +24,7 @@ class EntryListRecyclerViewPagedAdapter(
     private val itemShareClickCallback: (EntryTitle, EntryUrl, Context) -> Unit,
     private val itemStarClickCallback: (EntryId, Context) -> Unit
 ) :
-    SelectableRecyclerViewPagedAdapter<EntryListPreview, ListItemEntryBinding>(
+    SelectableRecyclerViewAdapter<EntryListPreview, ListItemEntryBinding>(
         viewInflater = ListItemEntryBinding::inflate,
         itemClickCallback = itemClickCallback,
         itemCountCallback = itemCountCallback,

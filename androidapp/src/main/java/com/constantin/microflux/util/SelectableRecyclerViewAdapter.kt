@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
 
-abstract class SelectableRecyclerViewPagedAdapter<T : Any, B : ViewBinding>(
+abstract class SelectableRecyclerViewAdapter<T : Any, B : ViewBinding>(
     viewInflater: (LayoutInflater, ViewGroup?, Boolean) -> B,
     itemClickCallback: (Long, Context, Int) -> Unit = { _, _, _ -> },
     private val itemCountCallback: (Int) -> Unit = { _ -> },
     private val selectionCallback: (Boolean) -> Unit,
     diffItemCallback: DiffUtil.ItemCallback<T>
-) : RecyclerViewPagedAdapter<T, B>(
+) : RecyclerViewAdapter<T, B>(
     viewInflater = viewInflater,
     diffItemCallback = diffItemCallback
 ) {
@@ -42,11 +42,11 @@ abstract class SelectableRecyclerViewPagedAdapter<T : Any, B : ViewBinding>(
 
     fun isInList(itemId: Long) = itemId in _selectionList
 
-    fun bulkSelection(selectionList: List<Long>) {
-        if (selectionList.isNotEmpty()) {
+    fun bulkSelection(toSelect: List<Long> = currentList.map { it.id }) {
+        if (currentList.isNotEmpty()) {
             selection = true
             _selectionList.clear()
-            _selectionList.addAll(selectionList)
+            _selectionList.addAll(toSelect)
             notifyDataSetChanged()
             itemCountCallback(_selectionList.size)
         }

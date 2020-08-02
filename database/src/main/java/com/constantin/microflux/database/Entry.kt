@@ -1,9 +1,7 @@
 package com.constantin.microflux.database
 
-import androidx.paging.DataSource
 import com.constantin.microflux.data.*
 import com.constantin.microflux.database.util.error
-import com.squareup.sqldelight.android.paging.QueryDataSourceFactory
 
 fun EntryQueries.selectAllId(
     entryStatus: EntryStatus,
@@ -25,26 +23,12 @@ fun EntryQueries.selectAll(
     serverId: ServerId,
     userId: UserId,
     feedId: FeedId
-): DataSource.Factory<Int, EntryListPreview> = QueryDataSourceFactory(
-    queryProvider = { limit, offset ->
-        selectAllImpl(
-            entryStatus = entryStatus,
-            serverId = serverId,
-            userId = userId,
-            entryStarred = entryStarred.starred.toLong(),
-            feedId = feedId.id,
-            limit = limit,
-            offset = offset
-        )
-    },
-    countQuery = countSelectAllImpl(
-        entryStatus = entryStatus,
-        serverId = serverId,
-        userId = userId,
-        entryStarred = entryStarred.starred.toLong(),
-        feedId = feedId.id
-    ),
-    transacter = this
+) = selectAllImpl(
+    entryStatus = entryStatus,
+    serverId = serverId,
+    userId = userId,
+    entryStarred = entryStarred.starred.toLong(),
+    feedId = feedId.id
 )
 
 fun EntryQueries.clearAll(
