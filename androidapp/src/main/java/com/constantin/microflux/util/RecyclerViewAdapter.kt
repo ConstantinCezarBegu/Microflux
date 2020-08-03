@@ -1,7 +1,6 @@
 package com.constantin.microflux.util
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,14 +84,11 @@ fun RecyclerView.addPagination(
             val totalItemCount = layoutManager!!.itemCount
             val firstVisibleItemPosition: Int = firstVisiblePosition()
 
-            Log.d("test", "onScrolled")
-
             isPageEnd = if (
                 visibleItemCount + firstVisibleItemPosition >= totalItemCount - pageSize
                 && firstVisibleItemPosition >= 0
                 && totalItemCount >= pageSize
             ) {
-                Log.d("test", "WORDS")
                 if (isPageEnd.not()) loadMoreItems(totalItemCount)
                 true
 

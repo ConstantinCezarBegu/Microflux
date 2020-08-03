@@ -3,7 +3,6 @@ package com.constantin.microflux.ui.fragment
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -208,7 +207,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 }
             },
             loadMoreItems = { _ ->
-                Log.d("test", "END OF PAGE")
                 viewmodel.fetchEntry(
                     entryStatus = entryStatus,
                     entryStarred = entryStarred,

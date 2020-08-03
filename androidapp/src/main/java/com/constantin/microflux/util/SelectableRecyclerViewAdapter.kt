@@ -43,7 +43,7 @@ abstract class SelectableRecyclerViewAdapter<T : Any, B : ViewBinding>(
     fun isInList(itemId: Long) = itemId in _selectionList
 
     fun bulkSelection(toSelect: List<Long> = currentList.map { it.id }) {
-        if (currentList.isNotEmpty()) {
+        if (toSelect.isNotEmpty()) {
             selection = true
             _selectionList.clear()
             _selectionList.addAll(toSelect)
