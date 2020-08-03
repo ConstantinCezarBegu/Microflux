@@ -45,7 +45,7 @@ class EntryRepository(
         serverId = account.serverId,
         userId = account.userId,
         feedId = feedId
-    )
+    ).flowMapToList(context)
 
     fun getEntry(
         account: Account = getCurrentAccount(),

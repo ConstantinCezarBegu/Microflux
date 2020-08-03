@@ -1,9 +1,6 @@
 package com.constantin.microflux.module
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
-import androidx.paging.toLiveData
 import com.constantin.microflux.data.*
 import com.constantin.microflux.database.Account
 import com.constantin.microflux.database.EntryListPreview
@@ -20,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 abstract class EntryViewModel(
-    private val context: CoroutineContext,
+    context: CoroutineContext,
     private val repository: ConstafluxRepository
 ) : BaseViewModel() {
 
@@ -39,31 +36,8 @@ abstract class EntryViewModel(
         entryStarred: EntryStarred
     )
 
-    protected val protectedEntries = MutableStateFlow<LiveData<PagedList<EntryListPreview>>?>(null)
-    val entries: StateFlow<LiveData<PagedList<EntryListPreview>>?> = protectedEntries
-    protected val pageSize = 20
-    protected fun provideBoundaryCallback(
-        entryStatus: EntryStatus,
-        entryStarred: EntryStarred
-    ) = object : PagedList.BoundaryCallback<EntryListPreview>() {
-        override fun onZeroItemsLoaded() {
-            fetchEntry(
-                entryStatus = entryStatus,
-                entryStarred = entryStarred,
-                showAnimations = false
-            )
-        }
-
-        override fun onItemAtEndLoaded(itemAtEnd: EntryListPreview) {
-            fetchEntry(
-                entryStatus = entryStatus,
-                entryStarred = entryStarred,
-                entryAfter = itemAtEnd.entryPublishedAtUnix,
-                clearPrevious = false,
-                showAnimations = false
-            )
-        }
-    }
+    protected val protectedEntries = MutableStateFlow<Flow<List<EntryListPreview>>?>(null)
+    val entries: StateFlow<Flow<List<EntryListPreview>>?> = protectedEntries
 
     abstract fun getEntries(
         entryStatus: EntryStatus,
@@ -111,7 +85,7 @@ abstract class EntryViewModel(
 }
 
 class AllEntryViewModel(
-    private val context: CoroutineContext,
+    context: CoroutineContext,
     private val repository: ConstafluxRepository
 ) : EntryViewModel(context, repository) {
 
@@ -132,12 +106,6 @@ class AllEntryViewModel(
         protectedEntries.value = repository.entryRepository.getAllEntries(
             entryStatus = entryStatus,
             entryStarred = entryStarred
-        ).toLiveData(
-            pageSize = pageSize,
-            boundaryCallback = provideBoundaryCallback(
-                entryStatus = entryStatus,
-                entryStarred = entryStarred
-            )
         )
     }
 
@@ -160,7 +128,7 @@ class AllEntryViewModel(
 }
 
 class FeedEntryViewModel(
-    private val context: CoroutineContext,
+    context: CoroutineContext,
     private val repository: ConstafluxRepository,
     private val feedId: FeedId
 ) : EntryViewModel(context, repository) {
@@ -186,12 +154,6 @@ class FeedEntryViewModel(
                 entryStatus = entryStatus,
                 entryStarred = entryStarred,
                 feedId = feedId
-            ).toLiveData(
-                pageSize = pageSize,
-                boundaryCallback = provideBoundaryCallback(
-                    entryStatus = entryStatus,
-                    entryStarred = entryStarred
-                )
             )
     }
 

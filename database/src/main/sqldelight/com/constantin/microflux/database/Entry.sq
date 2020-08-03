@@ -107,8 +107,7 @@ WHERE entryListPreview.entryStatus = ?
 AND entryListPreview.serverId = ?
 AND entryListPreview.userId = ?
 AND CASE WHEN :entryStarred > 0 THEN entryListPreview.entryStarred = 1 ELSE 1 END
-AND CASE WHEN :feedId > -1 THEN entryListPreview.feedId = :feedId ELSE 1 END
-LIMIT :limit OFFSET :offset;
+AND CASE WHEN :feedId > -1 THEN entryListPreview.feedId = :feedId ELSE 1 END;
 
 selectLatestFeedEntry:
 SELECT entry.entryPublishedAtUnix

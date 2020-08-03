@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
+
 abstract class RecyclerViewAdapter<T, B : ViewBinding>(
     private val viewInflater: (LayoutInflater, ViewGroup?, Boolean) -> B,
     private var itemClickCallback: (Long, Context, Int) -> Unit = { _, _, _ -> },
@@ -67,4 +68,34 @@ abstract class RecyclerViewAdapter<T, B : ViewBinding>(
             return true
         }
     }
+}
+
+fun RecyclerView.addPagination(
+    pageSize: Int,
+    firstVisiblePosition: () -> Int,
+    loadMoreItems: (Int) -> Unit
+) {
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        var isPageEnd = false
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val visibleItemCount = layoutManager!!.childCount
+            val totalItemCount = layoutManager!!.itemCount
+            val firstVisibleItemPosition: Int = firstVisiblePosition()
+
+            isPageEnd = if (
+                visibleItemCount + firstVisibleItemPosition >= totalItemCount - pageSize
+                && firstVisibleItemPosition >= 0
+                && totalItemCount >= pageSize
+            ) {
+                if (isPageEnd.not()) loadMoreItems(totalItemCount)
+                true
+
+            } else {
+                false
+            }
+
+        }
+    })
 }
