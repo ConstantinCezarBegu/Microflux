@@ -63,8 +63,11 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // Modules needed.
     api(project(":viewmodel"))
-    // Android Pagination
-    implementation("androidx.paging:paging-runtime-ktx:2.1.2")
+    api(project(":encryption"))
+    // Android sqldelight Driver.
+    implementation("com.squareup.sqldelight:android-driver:1.4.0")
+    // Ktor Driver
+    implementation("io.ktor:ktor-client-android:1.3.2")
     // Material
     implementation("com.google.android.material:material:1.3.0-alpha02")
     // Setting edge to edge variables

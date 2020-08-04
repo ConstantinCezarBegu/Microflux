@@ -1,7 +1,8 @@
 package com.constantin.microflux.network
 
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.android.Android
+import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.features.*
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -10,8 +11,10 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
 @OptIn(UnstableDefault::class)
-class MinifluxService {
-    private val client = HttpClient(Android) {
+class MinifluxService(
+    engine: HttpClientEngineFactory<HttpClientEngineConfig>
+) {
+    private val client = HttpClient(engine) {
         install(JsonFeature) {
             serializer = KotlinxSerializer(Json(JsonConfiguration(ignoreUnknownKeys = true)))
         }

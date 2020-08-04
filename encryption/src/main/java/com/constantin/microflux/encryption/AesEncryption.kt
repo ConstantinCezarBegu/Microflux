@@ -1,4 +1,4 @@
-package com.constantin.microflux.database.util
+package com.constantin.microflux.encryption
 
 import android.content.Context
 import com.google.crypto.tink.Aead
@@ -21,7 +21,10 @@ class AesEncryption(context: Context) {
     }
 
     private val aead = AndroidKeysetManager.Builder()
-        .withSharedPref(context, TINK_KEY_SET_NAME, PREF_FILE_NAME)
+        .withSharedPref(context,
+            TINK_KEY_SET_NAME,
+            PREF_FILE_NAME
+        )
         .withKeyTemplate(AesGcmKeyManager.aes256GcmTemplate())
         .withMasterKeyUri(MASTER_KEY_URI)
         .build()

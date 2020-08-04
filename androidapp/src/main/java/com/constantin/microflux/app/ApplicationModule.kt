@@ -10,15 +10,21 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.Configuration
 import androidx.work.WorkManager
 import coil.ImageLoaderBuilder
 import com.constantin.microflux.R
 import com.constantin.microflux.broadcast.BroadcastReceiversModule
+import com.constantin.microflux.database.ConstafluxDatabase.Companion.DB_NAME
+import com.constantin.microflux.database.Database
+import com.constantin.microflux.encryption.AesEncryption
 import com.constantin.microflux.ui.MainActivityModule
 import com.constantin.microflux.util.ByteArrayFetcher
 import com.constantin.microflux.worker.ConstafluxWorkerFactory
 import com.constantin.microflux.worker.WorkersModule
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -44,6 +50,28 @@ interface ApplicationModule {
         @Singleton
         fun provideCoroutineContext(): CoroutineContext = Dispatchers.IO
 
+        @Provides
+        @Singleton
+        fun provideSqlDriver(
+            context: Context
+        ): SqlDriver = AndroidSqliteDriver(
+            schema = Database.Schema,
+            context = context,
+            name = DB_NAME,
+            callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
+                override fun onOpen(db: SupportSQLiteDatabase) {
+                    db.execSQL("PRAGMA foreign_keys=ON;")
+                }
+            }
+        )
+
+        @Provides
+        @Singleton
+        fun provideAesEncryption(
+            context: Context
+        ) = AesEncryption(
+            context = context
+        )
 
         @Provides
         @Singleton
