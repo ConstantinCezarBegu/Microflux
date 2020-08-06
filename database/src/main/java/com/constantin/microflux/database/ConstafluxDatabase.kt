@@ -1,22 +1,21 @@
 package com.constantin.microflux.database
 
-import android.content.Context
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.constantin.microflux.data.*
-import com.constantin.microflux.database.util.AesEncryption
+import com.constantin.microflux.encryption.AesEncryption
 import com.google.crypto.tink.subtle.Base64
 import com.squareup.sqldelight.ColumnAdapter
-import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 
 class NoUserException(message: String = "Cannot select new User since none are available.") :
     Exception(message)
 
-class ConstafluxDatabase(context: Context) {
+class ConstafluxDatabase(
+    sqlDriver: SqlDriver,
+    aesEncryption: AesEncryption
+) {
     companion object {
         const val DB_NAME = "constaflux2.db"
     }
-
-    private val aesEncryption = AesEncryption(context)
 
     private val entryAdapter = Entry.Adapter(
         serverIdAdapter = object : ColumnAdapter<ServerId, Long> {
@@ -430,16 +429,7 @@ class ConstafluxDatabase(context: Context) {
     )
 
     private val database = Database(
-        driver = AndroidSqliteDriver(
-            schema = Database.Schema,
-            context = context,
-            name = DB_NAME,
-            callback = object : AndroidSqliteDriver.Callback(Database.Schema) {
-                override fun onOpen(db: SupportSQLiteDatabase) {
-                    db.execSQL("PRAGMA foreign_keys=ON;")
-                }
-            }
-        ),
+        driver = sqlDriver,
         entryAdapter = entryAdapter,
         feedAdapter = feedAdapter,
         categoryAdapter = categoryAdapter,

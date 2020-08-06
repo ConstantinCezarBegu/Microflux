@@ -3,7 +3,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
-    id("com.squareup.sqldelight")
 }
 
 android {
@@ -19,7 +18,7 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -30,13 +29,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         @Suppress("SuspiciousCollectionReassignment")
-        freeCompilerArgs += listOf(
-            "-progressive",
-            "-XXLanguage:+NewInference",
-            "-XXLanguage:+InlineClasses",
-            "-Xuse-experimental=kotlin.ExperimentalUnsignedTypes",
-            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
+                freeCompilerArgs += listOf(
+                "-progressive",
+                "-XXLanguage:+NewInference",
+                "-XXLanguage:+InlineClasses",
+                "-Xuse-experimental=kotlin.ExperimentalUnsignedTypes",
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
         )
     }
     packagingOptions {
@@ -51,16 +50,6 @@ repositories {
 dependencies {
     // Modules
     implementation(project(":data"))
-    implementation(project(":encryption"))
-    // Sqldelight
-    implementation("com.squareup.sqldelight:android-driver:1.4.0")
-    implementation("com.squareup.sqldelight:coroutines-extensions-jvm:1.4.0")
     // Tink for encryption
     implementation ("com.google.crypto.tink:tink-android:1.4.0-rc2")
-}
-
-sqldelight {
-    database("Database") {
-        packageName = "com.constantin.microflux.database"
-    }
 }

@@ -148,15 +148,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
-                app:iconGravity="end"
                 android:visibility="visible"
                 app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="end"
                 app:layout_constraintBottom_toBottomOf="@+id/progressBar_loading_login"
-                app:layout_constraintEnd_toStartOf="@+id/deleteButton"
-                app:layout_constraintHorizontal_bias="0.893"
-                app:layout_constraintStart_toStartOf="@+id/paswordTextInput"
-                app:layout_constraintTop_toTopOf="@+id/progressBar_loading_login"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintEnd_toEndOf="@+id/paswordTextInput"
+                app:layout_constraintStart_toEndOf="@+id/deleteButton"
+                app:layout_constraintTop_toTopOf="@+id/progressBar_loading_login" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/deleteButton"
@@ -165,8 +163,8 @@
                 android:text="@string/remove"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/progressBar_loading_login"
-                app:layout_constraintEnd_toEndOf="@+id/paswordTextInput"
-                app:layout_constraintStart_toEndOf="@+id/loginButton"
+                app:layout_constraintEnd_toStartOf="@+id/loginButton"
+                app:layout_constraintStart_toStartOf="@+id/paswordTextInput"
                 app:layout_constraintTop_toTopOf="@+id/progressBar_loading_login" />
 
             <ProgressBar
