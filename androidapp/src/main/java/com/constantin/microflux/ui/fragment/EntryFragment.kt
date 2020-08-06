@@ -78,8 +78,15 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
         }
 
     override fun onBackPressed() =
-        !(this::recyclerViewAdapter.isInitialized && recyclerViewAdapter.selection).also {
-            if (it) recyclerViewAdapter.clearSelection()
+        if (this::recyclerViewAdapter.isInitialized && recyclerViewAdapter.selection) {
+            recyclerViewAdapter.clearSelection()
+            false
+        } else if (entryStatus != EntryStatus.UN_READ || entryStarred != EntryStarred.UN_STARRED) {
+            entryStatus = EntryStatus.UN_READ
+            entryStarred = EntryStarred.UN_STARRED
+            false
+        } else {
+            true
         }
 
     override fun onAttach(context: Context) {
