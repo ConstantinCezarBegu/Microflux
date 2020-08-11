@@ -275,6 +275,7 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
     private fun FragmentListContentBinding.attachAppBar() {
         val appBar = if (feedId == FeedId.NO_FEED) {
             bottomAppBar.run {
+                performShow()
                 navigationIcon = ContextCompat.getDrawable(context, R.drawable.ic_hamburger)!!
                 setNavigationOnClickListener {
                     BottomNavigationDrawerFragment().also {
