@@ -3,7 +3,6 @@ package com.constantin.microflux.ui.fragment
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -233,7 +232,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 contentList.scrollToPosition(0)
             },
             action = { entries ->
-                Log.d("test", "TESTING")
                 val isEntriesEmpty = entries.isEmpty()
                 if (isEntriesEmpty) viewmodel.fetchEntry(
                     entryStatus = entryStatus,
@@ -346,13 +344,19 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.recycler_view_selection_star -> {
-                        viewmodel.updateEntryStarred(
+                        val selectionList =
                             recyclerViewAdapter.selectionList.toList().map { EntryId(it) }
+                        recyclerViewAdapter.clearSelection()
+                        viewmodel.updateEntryStarred(
+                            selectionList
                         )
                     }
                     R.id.recycler_view_selection_reading -> {
+                        val selectionList =
+                            recyclerViewAdapter.selectionList.toList().map { EntryId(it) }
+                        recyclerViewAdapter.clearSelection()
                         viewmodel.updateEntryStatus(
-                            recyclerViewAdapter.selectionList.toList().map { EntryId(it) },
+                            selectionList,
                             entryStatus
                         )
                     }

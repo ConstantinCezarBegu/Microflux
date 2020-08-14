@@ -18,11 +18,7 @@ abstract class SelectableRecyclerViewAdapter<T : Any, B : ViewBinding>(
 ) {
     private val _selectionList = mutableListOf<Long>()
     val selectionList: List<Long>
-        get() {
-            val selections = _selectionList.toList()
-            clearSelection()
-            return selections
-        }
+        get() = _selectionList.toList()
 
     var selection = false
         private set(value) {
