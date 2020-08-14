@@ -3,6 +3,7 @@ package com.constantin.microflux.ui.fragment
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -223,7 +224,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                     clearPrevious = false,
                     showAnimations = false
                 )
-
             }
         )
 
@@ -233,7 +233,15 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 contentList.scrollToPosition(0)
             },
             action = { entries ->
-                emptyStateContainer.isGone = entries.isNotEmpty()
+                Log.d("test", "TESTING")
+                val isEntriesEmpty = entries.isEmpty()
+                if (isEntriesEmpty) viewmodel.fetchEntry(
+                    entryStatus = entryStatus,
+                    entryStarred = entryStarred,
+                    clearPrevious = false,
+                    showAnimations = false
+                )
+                emptyStateContainer.isGone = isEntriesEmpty.not()
                 recyclerViewAdapter.submitList(entries)
                 showBottomAppBarIfNoItemToScroll()
             }
