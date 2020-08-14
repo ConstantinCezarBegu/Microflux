@@ -12,8 +12,8 @@ android {
         applicationId = "com.constantin.microflux"
         minSdkVersion(24)
         targetSdkVersion(30)
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 4
+        versionName = "1.0.3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -101,7 +101,7 @@ dependencies {
     // SwipeRefreshLayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     // Browser
-    implementation("androidx.browser:browser:1.3.0-alpha04")
+    implementation("androidx.browser:browser:1.3.0-alpha05")
     // Process
     implementation("androidx.lifecycle:lifecycle-process:2.3.0-alpha06")
     // Work
