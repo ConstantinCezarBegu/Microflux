@@ -53,7 +53,7 @@ class MainActivity : DaggerAppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        readMicrofluxIntent(intent)
+        if (savedInstanceState == null) readMicrofluxIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent?) {
