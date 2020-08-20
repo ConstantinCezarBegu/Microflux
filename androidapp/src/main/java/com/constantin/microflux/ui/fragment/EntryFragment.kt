@@ -232,18 +232,16 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 contentList.scrollToPosition(0)
             },
             action = { entries ->
-                val isEntriesEmpty = entries.isEmpty()
-                if (isEntriesEmpty) viewmodel.fetchEntry(
-                    entryStatus = entryStatus,
-                    entryStarred = entryStarred,
-                    clearPrevious = false,
-                    showAnimations = false
-                )
-                emptyStateContainer.isGone = isEntriesEmpty.not()
+                emptyStateContainer.isGone = entries.isNotEmpty()
                 recyclerViewAdapter.submitList(entries)
                 showBottomAppBarIfNoItemToScroll()
             }
         )
+
+        viewmodel.onEmptyStateFetch(
+            entryStatus = entryStatus,
+            entryStarred = entryStarred
+        ).launchIn(viewLifecycleOwner.lifecycleScope)
 
         recyclerViewLayoutManager =
             StaggeredGridLayoutManager(
@@ -251,8 +249,7 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                     Configuration.ORIENTATION_PORTRAIT -> 1
                     Configuration.ORIENTATION_LANDSCAPE -> 2
                     else -> 1
-                }
-                , StaggeredGridLayoutManager.VERTICAL
+                }, StaggeredGridLayoutManager.VERTICAL
             ).also {
                 contentList.layoutManager = it
             }

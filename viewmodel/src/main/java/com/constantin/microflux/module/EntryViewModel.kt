@@ -9,10 +9,7 @@ import com.constantin.microflux.module.util.load
 import com.constantin.microflux.repository.ConstafluxRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -28,7 +25,7 @@ abstract class EntryViewModel(
         repository.settingsRepository.getTheme().first()
     }
 
-    protected val protectedEntriesId = MutableStateFlow<Flow<List<EntryId>>?>(null)
+    protected val protectedEntriesId = MutableStateFlow<Flow<List<EntryId>>>(emptyFlow())
     val entriesId: StateFlow<Flow<List<EntryId>>?> = protectedEntriesId
 
     abstract fun getEntriesId(
@@ -36,8 +33,8 @@ abstract class EntryViewModel(
         entryStarred: EntryStarred
     )
 
-    protected val protectedEntries = MutableStateFlow<Flow<List<EntryListPreview>>?>(null)
-    val entries: StateFlow<Flow<List<EntryListPreview>>?> = protectedEntries
+    protected val protectedEntries = MutableStateFlow<Flow<List<EntryListPreview>>>(emptyFlow())
+    val entries: StateFlow<Flow<List<EntryListPreview>>> = protectedEntries
 
     abstract fun getEntries(
         entryStatus: EntryStatus,
@@ -82,6 +79,23 @@ abstract class EntryViewModel(
             )
         }
     }
+
+    fun onEmptyStateFetch(
+        entryStatus: EntryStatus,
+        entryStarred: EntryStarred
+    ) = entries.flatMapLatest { it }
+        .combine(updateEntryStatusProgression) { list: List<EntryListPreview>, statusResult: Result<Unit> ->
+            list.isEmpty() && statusResult is Result.Complete
+        }.combine(updateEntryStarredProgression) { previous: Boolean, starResult: Result<Unit> ->
+            previous && starResult is Result.Complete
+        }.distinctUntilChanged().onEach {
+            if (it) fetchEntry(
+                entryStatus = entryStatus,
+                entryStarred = entryStarred,
+                clearPrevious = false,
+                showAnimations = false
+            )
+        }
 }
 
 class AllEntryViewModel(
