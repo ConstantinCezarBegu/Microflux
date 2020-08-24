@@ -2,7 +2,6 @@ apply(plugin = "com.github.ben-manes.versions")
 
 buildscript {
     val kotlinVersion by extra("1.3.72")
-    val kotlin_version by extra("1.3.72")
     repositories {
         google()
         jcenter()

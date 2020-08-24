@@ -46,9 +46,9 @@ dependencies {
     // modules
     api(project(":repository"))
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha06")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha07")
     // viewmodel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha06")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07")
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7")
 }

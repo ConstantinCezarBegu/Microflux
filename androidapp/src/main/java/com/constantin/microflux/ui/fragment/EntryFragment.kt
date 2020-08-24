@@ -57,7 +57,10 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
         set(value) {
             field = value
             if (isResumed) {
-                loadEntries()
+                viewmodel.getEntries(
+                    entryStatus = entryStatus,
+                    entryStarred = entryStarred
+                )
                 getNavigationAppBar().menu[1].changeMenu(
                     drawableRes = value.statusIcon(requireContext()),
                     resId = value.statusTitle()
@@ -69,7 +72,10 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
         set(value) {
             field = value
             if (isResumed) {
-                loadEntries()
+                viewmodel.getEntries(
+                    entryStatus = entryStatus,
+                    entryStarred = entryStarred
+                )
                 getNavigationAppBar().menu[0].changeMenu(
                     drawableRes = value.starIcon(requireContext()),
                     resId = value.starTitle()
@@ -226,22 +232,29 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
             }
         )
 
-        viewmodel.entries.observeFilter(
-            owner = viewLifecycleOwner,
-            stateChangeAction = {
-                contentList.scrollToPosition(0)
-            },
-            action = { entries ->
-                emptyStateContainer.isGone = entries.isNotEmpty()
-                recyclerViewAdapter.submitList(entries)
-                showBottomAppBarIfNoItemToScroll()
-            }
-        )
-
-        viewmodel.onEmptyStateFetch(
-            entryStatus = entryStatus,
-            entryStarred = entryStarred
-        ).launchIn(viewLifecycleOwner.lifecycleScope)
+        with(viewmodel) {
+            entries.observeFilter(
+                owner = viewLifecycleOwner,
+                stateChangeAction = {
+                    contentList.scrollToPosition(0)
+                },
+                action = { entries ->
+                    emptyStateContainer.isGone = entries.isNotEmpty()
+                    recyclerViewAdapter.submitList(entries)
+                    showBottomAppBarIfNoItemToScroll()
+                }
+            )
+            onEmptyStateAndNoWork.observeFilter(
+                owner = viewLifecycleOwner,
+                action = { isEmptyStateAndNoWord ->
+                    if (isEmptyStateAndNoWord) viewmodel.fetchEntry(
+                        entryStatus = entryStatus,
+                        entryStarred = entryStarred,
+                        showAnimations = true
+                    )
+                }
+            )
+        }
 
         recyclerViewLayoutManager =
             StaggeredGridLayoutManager(
@@ -369,13 +382,19 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
     private fun autoLogin(isFirstLaunch: Boolean) {
         if (feedId == FeedId.NO_FEED && isFirstLaunch) {
             if (viewmodel.isLogin) {
-                loadEntries(fetch = true, animate = true)
+                viewmodel.getEntries(
+                    entryStatus = entryStatus,
+                    entryStarred = entryStarred
+                )
             } else {
                 findNavController().navigate(
                     EntryFragmentDirections.actionEntryFragmentToAccountFragment(firstTimeLaunch = true)
                 )
             }
-        } else loadEntries()
+        } else viewmodel.getEntries(
+            entryStatus = entryStatus,
+            entryStarred = entryStarred
+        )
     }
 
     private fun onInvalidCredentials(result: Result<Unit>) {
@@ -386,23 +405,6 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                     userId = viewmodel.currentAccount.userId.id,
                     firstTimeLaunch = true
                 )
-            )
-        }
-    }
-
-    private fun loadEntries(
-        fetch: Boolean = true,
-        animate: Boolean = true
-    ) {
-        viewmodel.run {
-            getEntries(
-                entryStatus = entryStatus,
-                entryStarred = entryStarred
-            )
-            if (fetch) viewmodel.fetchEntry(
-                entryStatus = entryStatus,
-                entryStarred = entryStarred,
-                showAnimations = animate
             )
         }
     }

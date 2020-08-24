@@ -36,6 +36,16 @@ abstract class EntryViewModel(
     protected val protectedEntries = MutableStateFlow<Flow<List<EntryListPreview>>>(emptyFlow())
     val entries: StateFlow<Flow<List<EntryListPreview>>> = protectedEntries
 
+    val onEmptyStateAndNoWork: Flow<Flow<Boolean>> = entries.map {
+        it.combine(updateEntryStatusProgression) { list: List<EntryListPreview>, statusResult: Result<Unit> ->
+                list.isEmpty() && statusResult is Result.Complete
+            }
+            .combine(updateEntryStarredProgression) { previous: Boolean, starResult: Result<Unit> ->
+                previous && starResult is Result.Complete
+            }
+            .distinctUntilChanged()
+    }
+
     abstract fun getEntries(
         entryStatus: EntryStatus,
         entryStarred: EntryStarred
@@ -79,23 +89,6 @@ abstract class EntryViewModel(
             )
         }
     }
-
-    fun onEmptyStateFetch(
-        entryStatus: EntryStatus,
-        entryStarred: EntryStarred
-    ) = entries.flatMapLatest { it }
-        .combine(updateEntryStatusProgression) { list: List<EntryListPreview>, statusResult: Result<Unit> ->
-            list.isEmpty() && statusResult is Result.Complete
-        }.combine(updateEntryStarredProgression) { previous: Boolean, starResult: Result<Unit> ->
-            previous && starResult is Result.Complete
-        }.distinctUntilChanged().onEach {
-            if (it) fetchEntry(
-                entryStatus = entryStatus,
-                entryStarred = entryStarred,
-                clearPrevious = false,
-                showAnimations = false
-            )
-        }
 }
 
 class AllEntryViewModel(

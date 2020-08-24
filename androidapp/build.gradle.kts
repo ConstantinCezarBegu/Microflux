@@ -75,7 +75,7 @@ dependencies {
     // Fetching web content
     implementation("net.dankito.readability4j:readability4j:1.0.4")
     // webview
-    implementation("androidx.webkit:webkit:1.2.0")
+    implementation("androidx.webkit:webkit:1.3.0")
     // Kotlin std lib
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.72")
     // Kotlin std lib
@@ -83,15 +83,15 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7")
     // Appcompat
-    implementation("androidx.appcompat:appcompat:1.3.0-alpha01")
+    implementation("androidx.appcompat:appcompat:1.3.0-alpha02")
     // Activity
-    implementation("androidx.activity:activity-ktx:1.2.0-alpha07")
+    implementation("androidx.activity:activity-ktx:1.2.0-alpha08")
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha07")
+    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha08")
     // Core
-    implementation("androidx.core:core-ktx:1.5.0-alpha01")
+    implementation("androidx.core:core-ktx:1.5.0-alpha02")
     // ConstraintLayout
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-rc1")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0")
     // CoordinatorLayout
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     // Viewpager2
@@ -103,7 +103,7 @@ dependencies {
     // Browser
     implementation("androidx.browser:browser:1.3.0-alpha05")
     // Process
-    implementation("androidx.lifecycle:lifecycle-process:2.3.0-alpha06")
+    implementation("androidx.lifecycle:lifecycle-process:2.3.0-alpha07")
     // Work
     implementation("androidx.work:work-runtime-ktx:2.4.0")
     // Navigation
