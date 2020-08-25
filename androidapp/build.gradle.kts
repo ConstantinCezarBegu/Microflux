@@ -12,8 +12,8 @@ android {
         applicationId = "com.constantin.microflux"
         minSdkVersion(24)
         targetSdkVersion(30)
-        versionCode = 4
-        versionName = "1.0.3"
+        versionCode = 5
+        versionName = "1.0.4"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
