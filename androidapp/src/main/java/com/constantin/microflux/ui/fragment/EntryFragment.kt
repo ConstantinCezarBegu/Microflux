@@ -240,18 +240,13 @@ class EntryFragment : BindingFragment<FragmentListContentBinding>(
                 },
                 action = { entries ->
                     emptyStateContainer.isGone = entries.isNotEmpty()
-                    recyclerViewAdapter.submitList(entries)
-                    showBottomAppBarIfNoItemToScroll()
-                }
-            )
-            onEmptyStateAndNoWork.observeFilter(
-                owner = viewLifecycleOwner,
-                action = { isEmptyStateAndNoWord ->
-                    if (isEmptyStateAndNoWord) viewmodel.fetchEntry(
+                    if (entries.isEmpty()) viewmodel.fetchEntry(
                         entryStatus = entryStatus,
                         entryStarred = entryStarred,
                         showAnimations = true
                     )
+                    recyclerViewAdapter.submitList(entries)
+                    showBottomAppBarIfNoItemToScroll()
                 }
             )
         }

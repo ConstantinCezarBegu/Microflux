@@ -7,9 +7,9 @@ import coil.fetch.FetchResult
 import coil.fetch.Fetcher
 import coil.fetch.SourceResult
 import coil.size.Size
-import kotlinx.io.ByteArrayInputStream
 import okio.buffer
 import okio.source
+import java.io.ByteArrayInputStream
 
 
 class ByteArrayFetcher : Fetcher<ByteArray> {

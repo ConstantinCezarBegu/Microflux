@@ -6,17 +6,15 @@ import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.features.*
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
-@OptIn(UnstableDefault::class)
 class MinifluxService(
     engine: HttpClientEngineFactory<HttpClientEngineConfig>
 ) {
     private val client = HttpClient(engine) {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(Json(JsonConfiguration(ignoreUnknownKeys = true)))
+            serializer = KotlinxSerializer(Json { ignoreUnknownKeys = true })
         }
         HttpResponseValidator {
             validateResponse { response ->

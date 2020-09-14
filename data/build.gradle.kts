@@ -10,9 +10,9 @@ repositories {
 
 dependencies {
     // Kotlin std lib
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.72")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.10")
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 }
 
 val compileKotlin: KotlinCompile by tasks

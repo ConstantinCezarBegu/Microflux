@@ -50,5 +50,5 @@ dependencies {
     // viewmodel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07")
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 }

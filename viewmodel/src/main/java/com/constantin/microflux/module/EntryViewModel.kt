@@ -7,16 +7,16 @@ import com.constantin.microflux.database.EntryListPreview
 import com.constantin.microflux.module.util.BaseViewModel
 import com.constantin.microflux.module.util.load
 import com.constantin.microflux.repository.ConstafluxRepository
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 abstract class EntryViewModel(
     context: CoroutineContext,
     private val repository: ConstafluxRepository
 ) : BaseViewModel() {
+
+    protected val supervisorJob = SupervisorJob()
 
     val isLogin: Boolean get() = repository.accountRepository.isAccountAvailable
     val currentAccount: Account get() = repository.accountRepository.currentAccount
@@ -35,16 +35,6 @@ abstract class EntryViewModel(
 
     protected val protectedEntries = MutableStateFlow<Flow<List<EntryListPreview>>>(emptyFlow())
     val entries: StateFlow<Flow<List<EntryListPreview>>> = protectedEntries
-
-    val onEmptyStateAndNoWork: Flow<Flow<Boolean>> = entries.map {
-        it.combine(updateEntryStatusProgression) { list: List<EntryListPreview>, statusResult: Result<Unit> ->
-                list.isEmpty() && statusResult is Result.Complete
-            }
-            .combine(updateEntryStarredProgression) { previous: Boolean, starResult: Result<Unit> ->
-                previous && starResult is Result.Complete
-            }
-            .distinctUntilChanged()
-    }
 
     abstract fun getEntries(
         entryStatus: EntryStatus,
@@ -68,7 +58,7 @@ abstract class EntryViewModel(
     fun updateEntryStatus(
         entryIds: List<EntryId>,
         entryStatus: EntryStatus
-    ) = viewModelScope.launch {
+    ) = viewModelScope.launch(supervisorJob) {
         _updateEntryStatusProgression.load {
             repository.entryRepository.updateStatus(
                 entryIds = entryIds,
@@ -82,7 +72,7 @@ abstract class EntryViewModel(
 
     fun updateEntryStarred(
         entryIds: List<EntryId>
-    ) = viewModelScope.launch {
+    ) = viewModelScope.launch(supervisorJob) {
         _updateEntryStarredProgression.load {
             repository.entryRepository.updateStarred(
                 entryIds = entryIds
@@ -123,13 +113,16 @@ class AllEntryViewModel(
         clearPrevious: Boolean,
         showAnimations: Boolean
     ) = viewModelScope.launch {
-        protectedFetchEntryProgression.load(showAnimations) {
-            repository.entryRepository.fetch(
-                entryStarred = entryStarred,
-                entryAfter = entryAfter,
-                entryStatus = entryStatus,
-                clearPrevious = clearPrevious
-            )
+        supervisorJob.children.forEach { it.join() }
+        viewModelScope.launch(supervisorJob) {
+            protectedFetchEntryProgression.load(showAnimations) {
+                repository.entryRepository.fetch(
+                    entryStarred = entryStarred,
+                    entryAfter = entryAfter,
+                    entryStatus = entryStatus,
+                    clearPrevious = clearPrevious
+                )
+            }
         }
     }
 }
@@ -171,14 +164,17 @@ class FeedEntryViewModel(
         clearPrevious: Boolean,
         showAnimations: Boolean
     ) = viewModelScope.launch {
-        protectedFetchEntryProgression.load(showAnimations) {
-            repository.entryRepository.fetchFeed(
-                feedId = feedId,
-                entryStarred = entryStarred,
-                entryAfter = entryAfter,
-                entryStatus = entryStatus,
-                clearPrevious = clearPrevious
-            )
+        supervisorJob.children.forEach { it.join() }
+        viewModelScope.launch(supervisorJob) {
+            protectedFetchEntryProgression.load(showAnimations) {
+                repository.entryRepository.fetchFeed(
+                    feedId = feedId,
+                    entryStarred = entryStarred,
+                    entryAfter = entryAfter,
+                    entryStatus = entryStatus,
+                    clearPrevious = clearPrevious
+                )
+            }
         }
     }
 }

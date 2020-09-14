@@ -13,7 +13,7 @@ inline fun <reified T : Any> error(
     val blockVar = block()
     Result.success(blockVar)
 } catch (e: ClientRequestException) {
-    when (e.response.status.value) {
+    when (e.response?.status?.value) {
         401 -> Result.Error.NetworkError.AuthorizationError
         404 -> Result.Error.NetworkError.ServerUrlError
         else -> Result.Error.NetworkError.ConnectivityError

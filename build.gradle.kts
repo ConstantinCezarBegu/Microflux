@@ -1,7 +1,7 @@
 apply(plugin = "com.github.ben-manes.versions")
 
 buildscript {
-    val kotlinVersion by extra("1.3.72")
+    val kotlinVersion by extra("1.4.10")
     repositories {
         google()
         jcenter()
@@ -14,14 +14,14 @@ buildscript {
         // Reading gradle versions
         classpath("com.github.ben-manes:gradle-versions-plugin:0.28.0")
         // Kotlin
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.72")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.4.10")
         // Android tools
-        classpath("com.android.tools.build:gradle:4.2.0-alpha07")
+        classpath("com.android.tools.build:gradle:4.2.0-alpha10")
         // Navigation safe args
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.0")
         // Sqldelight
-        classpath("com.squareup.sqldelight:gradle-plugin:1.4.0")
+        classpath("com.squareup.sqldelight:gradle-plugin:1.4.3")
 
     }
 }

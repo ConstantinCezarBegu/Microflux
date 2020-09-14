@@ -53,8 +53,8 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":encryption"))
     // Sqldelight
-    implementation("com.squareup.sqldelight:android-driver:1.4.0")
-    implementation("com.squareup.sqldelight:coroutines-extensions-jvm:1.4.0")
+    implementation("com.squareup.sqldelight:android-driver:1.4.3")
+    implementation("com.squareup.sqldelight:coroutines-extensions-jvm:1.4.3")
     // Tink for encryption
     implementation ("com.google.crypto.tink:tink-android:1.4.0-rc2")
 }

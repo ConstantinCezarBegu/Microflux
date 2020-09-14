@@ -65,9 +65,9 @@ dependencies {
     api(project(":viewmodel"))
     api(project(":encryption"))
     // Android sqldelight Driver.
-    implementation("com.squareup.sqldelight:android-driver:1.4.0")
+    implementation("com.squareup.sqldelight:android-driver:1.4.3")
     // Ktor Driver
-    implementation("io.ktor:ktor-client-android:1.3.2")
+    implementation("io.ktor:ktor-client-android:1.4.0")
     // Material
     implementation("com.google.android.material:material:1.3.0-alpha02")
     // Setting edge to edge variables
@@ -77,11 +77,11 @@ dependencies {
     // webview
     implementation("androidx.webkit:webkit:1.3.0")
     // Kotlin std lib
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.72")
-    // Kotlin std lib
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.10")
+    // Kotlin serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     // Appcompat
     implementation("androidx.appcompat:appcompat:1.3.0-alpha02")
     // Activity
@@ -91,7 +91,7 @@ dependencies {
     // Core
     implementation("androidx.core:core-ktx:1.5.0-alpha02")
     // ConstraintLayout
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.1")
     // CoordinatorLayout
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     // Viewpager2
@@ -110,7 +110,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
     // Dagger
-    implementation("com.google.dagger:dagger:2.28.1")
+    implementation("com.google.dagger:dagger:2.28.3")
     implementation("com.google.dagger:dagger-android-support:2.28.1")
     kapt("com.google.dagger:dagger-compiler:2.28.1")
     kapt("com.google.dagger:dagger-android-processor:2.28.1")
@@ -121,8 +121,8 @@ dependencies {
     implementation("io.coil-kt:coil:0.11.0")
     // Test implementation
     testImplementation("junit:junit:4.13")
-    androidTestImplementation("androidx.test.ext:junit:1.1.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.2")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
     // Allows to detect memory leacks.
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.4")
 }
