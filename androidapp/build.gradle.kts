@@ -69,7 +69,7 @@ dependencies {
     // Ktor Driver
     implementation("io.ktor:ktor-client-android:1.4.0")
     // Material
-    implementation("com.google.android.material:material:1.3.0-alpha02")
+    implementation("com.google.android.material:material:1.3.0-alpha03")
     // Setting edge to edge variables
     implementation("dev.chrisbanes:insetter-ktx:0.3.0")
     // Fetching web content
@@ -85,30 +85,30 @@ dependencies {
     // Appcompat
     implementation("androidx.appcompat:appcompat:1.3.0-alpha02")
     // Activity
-    implementation("androidx.activity:activity-ktx:1.2.0-alpha08")
+    implementation("androidx.activity:activity-ktx:1.2.0-beta01")
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.3.0-alpha08")
+    implementation("androidx.fragment:fragment-ktx:1.3.0-beta01")
     // Core
-    implementation("androidx.core:core-ktx:1.5.0-alpha02")
+    implementation("androidx.core:core-ktx:1.5.0-alpha04")
     // ConstraintLayout
-    implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     // CoordinatorLayout
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     // Viewpager2
     implementation("androidx.viewpager2:viewpager2:1.1.0-alpha01")
     // RecyclerView
-    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha05")
+    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha06")
     // SwipeRefreshLayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     // Browser
-    implementation("androidx.browser:browser:1.3.0-alpha05")
+    implementation("androidx.browser:browser:1.3.0-beta01")
     // Process
-    implementation("androidx.lifecycle:lifecycle-process:2.3.0-alpha07")
+    implementation("androidx.lifecycle:lifecycle-process:2.3.0-beta01")
     // Work
     implementation("androidx.work:work-runtime-ktx:2.4.0")
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.1")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.1")
     // Dagger
     implementation("com.google.dagger:dagger:2.28.3")
     implementation("com.google.dagger:dagger-android-support:2.28.1")
